@@ -1,0 +1,23 @@
+# Editor directories
+.claude/
+.vscode/
+.idea/
+
+# Backup files
+*.backup
+*.bak
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Hyprland specific - may contain machine-specific paths
+# Uncomment if you want to customize these per machine
+# .config/hypr/monitors.conf
+
+# Build artifacts
+*.log
+CLAUDE.md

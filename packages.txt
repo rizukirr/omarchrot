@@ -1,0 +1,54 @@
+# Core Hyprland
+hyprland
+hyprpaper
+hyprlock
+hypridle
+hyprpicker
+xdg-desktop-portal-hyprland
+
+# UI/Menu/Status
+waybar
+tofi
+dunst
+wlogout
+
+# Screenshots & Screen tools
+slurp
+
+# System utilities
+polkit-kde-agent
+cliphist
+wl-clipboard
+playerctl
+brightnessctl
+
+# Applications
+kitty
+pcmanfm-gtk3
+firefox
+neovim
+jq
+blueman
+
+# Audio/Video
+pipewire
+pipewire-alsa
+pipewire-audio
+pipewire-pulse
+wireplumber
+ffmpeg
+
+# CLI Tools
+fzf
+zoxide
+starship
+fastfetch
+
+# Fonts
+ttf-jetbrains-mono-nerd
+
+# GTK/QT Support
+gtk3
+qt5-wayland
+qt6-wayland
+qt6ct

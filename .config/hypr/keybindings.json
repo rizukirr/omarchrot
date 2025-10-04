@@ -1,0 +1,386 @@
+[
+  {
+    "key": "T",
+    "modifiers": "SUPER",
+    "action": "$terminal",
+    "description": "Open terminal"
+  },
+  {
+    "key": "B",
+    "modifiers": "SUPER",
+    "action": "$browser",
+    "description": "Open browser"
+  },
+  {
+    "key": "O",
+    "modifiers": "SUPER",
+    "action": "$notes",
+    "description": "Open notes"
+  },
+  {
+    "key": "Q",
+    "modifiers": "SUPER",
+    "action": "killactive",
+    "description": "Kill active window"
+  },
+  {
+    "key": "X",
+    "modifiers": "SUPER",
+    "action": "exit",
+    "description": "Exit Hyprland"
+  },
+  {
+    "key": "F",
+    "modifiers": "SUPER",
+    "action": "$fileManager",
+    "description": "Open file manager"
+  },
+  {
+    "key": "W",
+    "modifiers": "SUPER",
+    "action": "togglefloating",
+    "description": "Toggle floating window"
+  },
+  {
+    "key": "A",
+    "modifiers": "SUPER",
+    "action": "$menu",
+    "description": "Open application menu"
+  },
+  {
+    "key": "J",
+    "modifiers": "SUPER SHIFT",
+    "action": "togglesplit",
+    "description": "Toggle split (dwindle)"
+  },
+  {
+    "key": "P",
+    "modifiers": "SUPER SHIFT",
+    "action": "$HOME/.local/bin/screen-record.sh",
+    "description": "Screen record (full)"
+  },
+  {
+    "key": "P",
+    "modifiers": "SUPER ALT",
+    "action": "$HOME/.local/bin/screen-record.sh region audio",
+    "description": "Screen record (region with audio)"
+  },
+  {
+    "key": "P",
+    "modifiers": "SUPER",
+    "action": "$HOME/.local/bin/screen-record.sh output",
+    "description": "Screen record (output)"
+  },
+  {
+    "key": "P",
+    "modifiers": "SUPER CTRL",
+    "action": "$HOME/.local/bin/screen-record.sh output audio",
+    "description": "Screen record (output with audio)"
+  },
+  {
+    "key": "E",
+    "modifiers": "SUPER",
+    "action": "jome -d | wl-copy",
+    "description": "Emoji picker + clipboard"
+  },
+  {
+    "key": "H",
+    "modifiers": "SUPER",
+    "action": "movefocus l",
+    "description": "Move focus left"
+  },
+  {
+    "key": "L",
+    "modifiers": "SUPER",
+    "action": "movefocus r",
+    "description": "Move focus right"
+  },
+  {
+    "key": "K",
+    "modifiers": "SUPER",
+    "action": "movefocus u",
+    "description": "Move focus up"
+  },
+  {
+    "key": "J",
+    "modifiers": "SUPER",
+    "action": "movefocus d",
+    "description": "Move focus down"
+  },
+  {
+    "key": "1",
+    "modifiers": "SUPER",
+    "action": "workspace 1",
+    "description": "Switch to workspace 1"
+  },
+  {
+    "key": "2",
+    "modifiers": "SUPER",
+    "action": "workspace 2",
+    "description": "Switch to workspace 2"
+  },
+  {
+    "key": "3",
+    "modifiers": "SUPER",
+    "action": "workspace 3",
+    "description": "Switch to workspace 3"
+  },
+  {
+    "key": "4",
+    "modifiers": "SUPER",
+    "action": "workspace 4",
+    "description": "Switch to workspace 4"
+  },
+  {
+    "key": "5",
+    "modifiers": "SUPER",
+    "action": "workspace 5",
+    "description": "Switch to workspace 5"
+  },
+  {
+    "key": "6",
+    "modifiers": "SUPER",
+    "action": "workspace 6",
+    "description": "Switch to workspace 6"
+  },
+  {
+    "key": "7",
+    "modifiers": "SUPER",
+    "action": "workspace 7",
+    "description": "Switch to workspace 7"
+  },
+  {
+    "key": "8",
+    "modifiers": "SUPER",
+    "action": "workspace 8",
+    "description": "Switch to workspace 8"
+  },
+  {
+    "key": "9",
+    "modifiers": "SUPER",
+    "action": "workspace 9",
+    "description": "Switch to workspace 9"
+  },
+  {
+    "key": "0",
+    "modifiers": "SUPER",
+    "action": "workspace 10",
+    "description": "Switch to workspace 10"
+  },
+  {
+    "key": "1",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 1",
+    "description": "Move to workspace 1"
+  },
+  {
+    "key": "2",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 2",
+    "description": "Move to workspace 2"
+  },
+  {
+    "key": "3",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 3",
+    "description": "Move to workspace 3"
+  },
+  {
+    "key": "4",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 4",
+    "description": "Move to workspace 4"
+  },
+  {
+    "key": "5",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 5",
+    "description": "Move to workspace 5"
+  },
+  {
+    "key": "6",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 6",
+    "description": "Move to workspace 6"
+  },
+  {
+    "key": "7",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 7",
+    "description": "Move to workspace 7"
+  },
+  {
+    "key": "8",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 8",
+    "description": "Move to workspace 8"
+  },
+  {
+    "key": "9",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 9",
+    "description": "Move to workspace 9"
+  },
+  {
+    "key": "0",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace 10",
+    "description": "Move to workspace 10"
+  },
+  {
+    "key": "S",
+    "modifiers": "SUPER SHIFT",
+    "action": "movetoworkspace special:magic",
+    "description": "Move to special workspace"
+  },
+  {
+    "key": "mouse_down",
+    "modifiers": "SUPER",
+    "action": "workspace e+1",
+    "description": "Next workspace (scroll)"
+  },
+  {
+    "key": "mouse_up",
+    "modifiers": "SUPER",
+    "action": "workspace e-1",
+    "description": "Previous workspace (scroll)"
+  },
+  {
+    "key": "Right",
+    "modifiers": "SUPER SHIFT",
+    "action": "resizeactive 30 0",
+    "description": "Resize window right"
+  },
+  {
+    "key": "Left",
+    "modifiers": "SUPER SHIFT",
+    "action": "resizeactive -30 0",
+    "description": "Resize window left"
+  },
+  {
+    "key": "Up",
+    "modifiers": "SUPER SHIFT",
+    "action": "resizeactive 0 -30",
+    "description": "Resize window up"
+  },
+  {
+    "key": "Down",
+    "modifiers": "SUPER SHIFT",
+    "action": "resizeactive 0 30",
+    "description": "Resize window down"
+  },
+  {
+    "key": "V",
+    "modifiers": "SUPER",
+    "action": "cliphist list | tofi | cliphist decode | wl-copy",
+    "description": "Clipboard history"
+  },
+  {
+    "key": "M",
+    "modifiers": "SUPER",
+    "action": "$colorPicker | wl-copy",
+    "description": "Color picker"
+  },
+  {
+    "key": "L",
+    "modifiers": "SUPER SHIFT",
+    "action": "hyprlock",
+    "description": "Lock screen"
+  },
+  {
+    "key": "ESCAPE",
+    "modifiers": "SUPER",
+    "action": "wlogout",
+    "description": "Logout menu"
+  },
+  {
+    "key": "ESCAPE",
+    "modifiers": "CTRL",
+    "action": "killall waybar || waybar",
+    "description": "Toggle waybar"
+  },
+  {
+    "key": "Print",
+    "modifiers": "",
+    "action": "grimblast --notify copysave screen",
+    "description": "Screenshot entire screen"
+  },
+  {
+    "key": "Print",
+    "modifiers": "SUPER",
+    "action": "grimblast --notify copysave active",
+    "description": "Screenshot active window"
+  },
+  {
+    "key": "Print",
+    "modifiers": "SUPER ALT",
+    "action": "grimblast --notify copysave area",
+    "description": "Screenshot area selection"
+  },
+  {
+    "key": "XF86AudioRaiseVolume",
+    "modifiers": "",
+    "action": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && volume-notify.sh",
+    "description": "Increase volume"
+  },
+  {
+    "key": "XF86AudioLowerVolume",
+    "modifiers": "",
+    "action": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && volume-notify.sh",
+    "description": "Decrease volume"
+  },
+  {
+    "key": "XF86AudioMicMute",
+    "modifiers": "",
+    "action": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && volume-notify.sh",
+    "description": "Toggle microphone mute"
+  },
+  {
+    "key": "XF86AudioMute",
+    "modifiers": "",
+    "action": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && volume-notify.sh",
+    "description": "Toggle audio mute"
+  },
+  {
+    "key": "XF86AudioPlay",
+    "modifiers": "",
+    "action": "playerctl play-pause",
+    "description": "Play/Pause media"
+  },
+  {
+    "key": "XF86AudioPause",
+    "modifiers": "",
+    "action": "playerctl play-pause",
+    "description": "Play/Pause media"
+  },
+  {
+    "key": "XF86AudioNext",
+    "modifiers": "",
+    "action": "playerctl next",
+    "description": "Next track"
+  },
+  {
+    "key": "XF86AudioPrev",
+    "modifiers": "",
+    "action": "playerctl previous",
+    "description": "Previous track"
+  },
+  {
+    "key": "XF86MonBrightnessUp",
+    "modifiers": "",
+    "action": "brightnessctl s +5% && brightness-notify.sh",
+    "description": "Increase brightness"
+  },
+  {
+    "key": "XF86MonBrightnessDown",
+    "modifiers": "",
+    "action": "brightnessctl s 5%- && brightness-notify.sh",
+    "description": "Decrease brightness"
+  },
+  {
+    "key": "K",
+    "modifiers": "SUPER",
+    "action": "$HOME/.local/bin/show-keybindings.sh",
+    "description": "Show keybindings menu"
+  }
+]

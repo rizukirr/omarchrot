@@ -1,0 +1,60 @@
+* {
+    border: none;
+    font-family: JetBrainsMono Nerd Font, monospace;
+    font-weight: 600;
+    font-size: 13px;
+    min-height: 0;
+    background: #1e1e2e;
+}
+
+window#waybar {
+    background: rgba(21, 18, 27, 0);
+    color: #cdd6f4;
+}
+
+
+/* Remove individual item backgrounds */
+#workspaces button,
+#window,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#tray,
+#backlight {
+    background: transparent;
+    margin: 0;
+    padding: 0 8px;
+    border-radius: 0;
+}
+
+/* Workspaces refinement */
+#workspaces {
+    padding: 0 6px;
+    margin: 0;
+}
+
+#workspaces button {
+    color: #6c7086;
+    padding: 4px 8px;
+    margin: 0 2px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    color: #cdd6f4;
+}
+
+#workspaces button.urgent {
+    color: #11111b;
+    background: #f38ba8;
+}
+
+#workspaces button:hover {
+    background: #45475a;
+    color: #cdd6f4;
+}
