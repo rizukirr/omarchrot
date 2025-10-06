@@ -1,6 +1,6 @@
 # Omarchrot
 
-This repository is **not related** to [Omarchy](https://github.com/basecamp/omarchy) — the name was chosen randomly. It contains my personal **Hyprland dotfiles**, focused on a **minimal and aesthetic** setup.
+This repository is **not related** to [Omarchy](https://github.com/basecamp/omarchy) — the name was chosen randomly. It contains my personal **Hyprland dotfiles**, focused on a **minimal, productivity and clean** setup.
 
 ## 🖼️ Preview
 
