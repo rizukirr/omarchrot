@@ -45,6 +45,7 @@ fzf
 zoxide
 starship
 fastfetch
+git
 
 # Fonts
 ttf-jetbrains-mono-nerd
