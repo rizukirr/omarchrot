@@ -14,59 +14,43 @@ SCOPE="$1"
 AUDIO=$([[ $2 == "audio" ]] && echo "--audio")
 
 start_screenrecording() {
+  local filename=""
+
   filename="$OUTPUT_DIR/screenrecording-$(date +'%Y-%m-%d_%H-%M-%S').mp4"
 
-  # Use ffmpeg for screen recording
-  if [[ "$1" == "-g" ]]; then
-    # Region recording with geometry from slurp
-    region="$2"
-    # Parse slurp geometry (format: WIDTHxHEIGHT+X+Y)
-    width_height=$(echo "$region" | cut -d'+' -f1)
-    x_offset=$(echo "$region" | cut -d'+' -f2)
-    y_offset=$(echo "$region" | cut -d'+' -f3)
-
-    if [[ -n "$AUDIO" ]]; then
-      ffmpeg -f pulse -i default -f x11grab -s "$width_height" -i "${DISPLAY:-:0.0}+$x_offset,$y_offset" -c:v h264_nvenc -preset fast -b:v 8M -movflags +faststart -c:a aac "$filename" &
-    else
-      ffmpeg -f x11grab -s "$width_height" -i "${DISPLAY:-:0.0}+$x_offset,$y_offset" -c:v h264_nvenc -preset fast -b:v 8M -movflags +faststart "$filename" &
-    fi
+  if lspci | grep -qi 'nvidia'; then
+    wf-recorder "$AUDIO" -f "$filename" -c libx264 -p crf=23 -p preset=medium -p movflags=+faststart "$@" &
   else
-    # Full screen recording
-    if [[ -n "$AUDIO" ]]; then
-      ffmpeg -f pulse -i default -f x11grab -s $(xrandr | grep '\*' | awk '{print $1}' | head -1) -i ${DISPLAY:-:0.0} -c:v h264_nvenc -preset fast -b:v 8M -movflags +faststart -c:a aac "$filename" &
-    else
-      ffmpeg -f x11grab -s $(xrandr | grep '\*' | awk '{print $1}' | head -1) -i ${DISPLAY:-:0.0} -c:v h264_nvenc -preset fast -b:v 8M -movflags +faststart "$filename" &
-    fi
+    wl-screenrec "$AUDIO" -f "$filename" --ffmpeg-encoder-options="-c:v libx264 -crf 23 -preset medium -movflags +faststart" "$@" &
   fi
 
   toggle_screenrecording_indicator
 }
 
 stop_screenrecording() {
-  pkill -x ffmpeg
+  pkill -x wl-screenrec
+  pkill -x wf-recorder
 
   notify-send "Screen recording saved to $OUTPUT_DIR" -t 2000
 
   sleep 0.2 # ensures the process is actually dead before we check
   toggle_screenrecording_indicator
 }
-
 toggle_screenrecording_indicator() {
+
   pkill -RTMIN+8 waybar
 }
 
 screenrecording_active() {
-  pgrep -x ffmpeg >/dev/null
+  pgrep -x wl-screenrec >/dev/null || pgrep -x wf-recorder >/dev/null
 }
 
 if screenrecording_active; then
-  notify-send "screen record stop"
   stop_screenrecording
 elif [[ "$SCOPE" == "output" ]]; then
-  notify-send "screen record start"
-  start_screenrecording
+  output=$(slurp -o) || exit 1
+  start_screenrecording -g "$output"
 else
   region=$(slurp) || exit 1
-  notify-send "screen record start"
   start_screenrecording -g "$region"
 fi

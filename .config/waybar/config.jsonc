@@ -85,9 +85,9 @@
         "format": "{icon}  {volume}%",
         "tooltip": false,
         "format-muted": "  Muted",
-        "on-click": "pamixer -t",
-        "on-scroll-up": "pamixer -i 1",
-        "on-scroll-down": "pamixer -d 1",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-",
         "scroll-step": 5,
         "format-icons": {
             "headphone": "",
@@ -104,9 +104,9 @@
         "format": "{format_source}",
         "format-source": " {volume}%",
         "format-source-muted": "  Muted",
-        "on-click": "pamixer --default-source -t",
-        "on-scroll-up": "pamixer --default-source -i 5",
-        "on-scroll-down": "pamixer --default-source -d 5",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SOURCE@ 5%+",
+        "on-scroll-down": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SOURCE@ 5%-",
         "scroll-step": 5
     },
 
@@ -149,8 +149,8 @@
     "custom/bluetooth": {
         "format": "{}",
         "exec": "if bluetoothctl show | grep -q 'Powered: yes'; then echo ' On'; else echo '󰂲 Off'; fi",
-        "on-click": "pkill -x blueman-manager || blueman-manager &",
-        "on-click-right": "~/.local/bin/bluetooth-toggle.sh toggle",
+        "on-click":  "~/.local/bin/bluetooth-toggle.sh toggle",
+        "on-click-right": "kitty ~/.local/bin/bluetooth-rfkill-check.sh; bluetui", 
         "interval": 5
     }
 }

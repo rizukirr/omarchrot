@@ -82,13 +82,6 @@ for dir in "$DOTFILES_DIR/.config"/*; do
   fi
 done
 
-# Symlink shell configs
-if [ -f "$DOTFILES_DIR/.bashrc" ]; then
-  backup_if_exists "$HOME/.bashrc"
-  ln -sf "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
-  echo -e "${GREEN}Linked:${NC} .bashrc"
-fi
-
 # Symlink scripts
 echo ""
 echo -e "${YELLOW}Installing scripts to ~/.local/bin...${NC}"
@@ -115,6 +108,14 @@ fi
 echo ""
 echo -e "${YELLOW}Enabling system services...${NC}"
 systemctl --user enable --now pipewire pipewire-pulse wireplumber
+
+# Enable battery monitor timer (if systemd files exist)
+if [ -f "$HOME/.config/systemd/user/battery-monitor.timer" ]; then
+  echo -e "${YELLOW}Enabling battery monitor timer...${NC}"
+  systemctl --user daemon-reload
+  systemctl --user enable --now battery-monitor.timer
+  echo -e "${GREEN}Battery monitor enabled${NC}"
+fi
 
 echo ""
 echo -e "${GREEN}======================================"

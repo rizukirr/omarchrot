@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Show current brightness using dunst
 
 NOTIFY_ID=9998

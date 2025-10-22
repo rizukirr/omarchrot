@@ -1,0 +1,10 @@
+[Unit]
+Description=Battery Monitor Timer
+Requires=battery-monitor.service
+
+[Timer]
+OnCalendar=*:*:0/30
+Persistent=true
+
+[Install]
+WantedBy=timers.target
