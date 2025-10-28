@@ -23,6 +23,7 @@ playerctl
 brightnessctl
 bluez
 bluez-utils
+libnotify
 
 # Applications
 kitty

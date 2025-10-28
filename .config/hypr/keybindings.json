@@ -324,8 +324,8 @@
   {
     "key": "V",
     "modifiers": "SUPER",
-    "action": "exec, cliphist list | tofi -c ~/.config/tofi/configV | cliphist decode | wl-copy",
-    "description": "exec, cliphist list | tofi -c ~/.config/tofi/configV | cliphist decode | wl-copy"
+    "action": "exec, cliphist list | wofi --show dmenu | cliphist decode | wl-copy",
+    "description": "exec, cliphist list | wofi --show dmenu | cliphist decode | wl-copy"
   }
 ,
   {

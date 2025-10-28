@@ -54,6 +54,15 @@ for item in "$DOTFILES_DIR/.config"/*; do
   fi
 done
 
+# Symlink .bashrc
+echo ""
+echo -e "${YELLOW}Symlinking .bashrc...${NC}"
+if [ -f "$DOTFILES_DIR/.bashrc" ]; then
+  backup_if_exists "$HOME/.bashrc"
+  ln -sf "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
+  echo -e "${GREEN}Linked:${NC} .bashrc"
+fi
+
 # Symlink scripts
 echo ""
 echo -e "${YELLOW}Symlinking scripts to ~/.local/bin...${NC}"

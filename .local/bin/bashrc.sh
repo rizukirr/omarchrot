@@ -41,5 +41,5 @@ shopt -s histappend
 shopt -s checkwinsize
 PS1='[\u@\h \W]\$ '
 
-alias ls='lsd'
+alias ls='lsd -la'
 alias grep='rg --color=auto'
