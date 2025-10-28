@@ -150,7 +150,6 @@
         "format": "{}",
         "exec": "if bluetoothctl show | grep -q 'Powered: yes'; then echo ' On'; else echo '󰂲 Off'; fi",
         "on-click":  "~/.local/bin/bluetooth-toggle.sh toggle",
-        "on-click-right": "kitty ~/.local/bin/bluetooth-rfkill-check.sh; bluetui", 
         "interval": 5
     }
 }

@@ -2,7 +2,7 @@
 
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(pwd)"
 
 echo "======================================"
 echo "  Omarchrot Installation Script"
@@ -28,8 +28,11 @@ elif command -v paru &>/dev/null; then
   AUR_HELPER="paru"
 else
   echo -e "${YELLOW}No AUR helper found. Installing yay...${NC}"
+  sudo pacman -Syu
   sudo pacman -S --needed git base-devel
-  git clone https://aur.archlinux.org/yay.git /tmp/yay
+  if [ -z /tmp/yay ]; then
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+  fi
   cd /tmp/yay
   makepkg -si --noconfirm
   cd "$DOTFILES_DIR"
@@ -46,7 +49,8 @@ git submodule update --init --recursive
 # Install official packages
 echo -e "${YELLOW}Installing official packages...${NC}"
 if [ -f "$DOTFILES_DIR/packages.txt" ]; then
-  sudo pacman -S --needed "$(grep -v '^#' "$DOTFILES_DIR/packages.txt" | grep -v '^$')"
+  sudo pacman -Syu
+  sudo pacman -S --needed $(grep -v '^#' "$DOTFILES_DIR/packages.txt" | grep -v '^$')
 else
   echo -e "${RED}packages.txt not found!${NC}"
   exit 1
@@ -55,7 +59,8 @@ fi
 # Install AUR packages
 echo -e "${YELLOW}Installing AUR packages...${NC}"
 if [ -f "$DOTFILES_DIR/aur-packages.txt" ]; then
-  $AUR_HELPER -S --needed "$(grep -v '^#' "$DOTFILES_DIR/aur-packages.txt" | grep -v '^$')"
+  $AUR_HELPER -Syu
+  $AUR_HELPER -S --needed $(grep -v '^#' "$DOTFILES_DIR/aur-packages.txt" | grep -v '^$')
 else
   echo -e "${YELLOW}aur-packages.txt not found, skipping AUR packages${NC}"
 fi
@@ -72,13 +77,26 @@ backup_if_exists() {
   fi
 }
 
-# Symlink .config directories
-for dir in "$DOTFILES_DIR/.config"/*; do
-  if [ -d "$dir" ]; then
-    target="$HOME/.config/$(basename "$dir")"
+# Symlink .config directories and files
+for item in "$DOTFILES_DIR/.config"/*; do
+  basename_item=$(basename "$item")
+
+  # Skip gtk-3.0, gtk-4.0, and Kvantum
+  if [[ "$basename_item" == "gtk-3.0" || "$basename_item" == "gtk-4.0" || "$basename_item" == "Kvantum" ]]; then
+    echo -e "${YELLOW}Skipping:${NC} $basename_item"
+    continue
+  fi
+
+  if [ -d "$item" ]; then
+    target="$HOME/.config/$basename_item"
     backup_if_exists "$target"
-    ln -sf "$dir" "$target"
-    echo -e "${GREEN}Linked:${NC} $(basename "$dir")"
+    ln -sf "$item" "$target"
+    echo -e "${GREEN}Linked:${NC} $basename_item"
+  elif [ -f "$item" ]; then
+    target="$HOME/.config/$basename_item"
+    backup_if_exists "$target"
+    ln -sf "$item" "$target"
+    echo -e "${GREEN}Linked:${NC} $basename_item"
   fi
 done
 
@@ -115,6 +133,11 @@ if [ -f "$HOME/.config/systemd/user/battery-monitor.timer" ]; then
   systemctl --user daemon-reload
   systemctl --user enable --now battery-monitor.timer
   echo -e "${GREEN}Battery monitor enabled${NC}"
+fi
+
+if command -v bluetoothctl &>/dev/null; then
+  sudo systemctl enable bluetooth
+  sudo systemctl start bluetooth
 fi
 
 echo ""

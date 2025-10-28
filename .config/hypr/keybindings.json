@@ -63,6 +63,20 @@
   }
 ,
   {
+    "key": "R",
+    "modifiers": "SUPER",
+    "action": "exec, \"$HOME/.local/bin/screen-record.sh\"",
+    "description": "exec, \"$HOME/.local/bin/screen-record.sh\""
+  }
+,
+  {
+    "key": "R",
+    "modifiers": "SUPERSHIFT",
+    "action": "exec, \"$HOME/.local/bin/screen-record.sh output\"",
+    "description": "exec, \"$HOME/.local/bin/screen-record.sh output\""
+  }
+,
+  {
     "key": "J",
     "modifiers": "SUPERSHIFT",
     "action": "togglesplit, # dwindle",
@@ -434,10 +448,17 @@
   }
 ,
   {
-    "key": "K",
+    "key": "SLASH",
     "modifiers": "SUPER",
     "action": "exec, \"$HOME/.local/bin/show-keybindings.sh\"",
     "description": "exec, \"$HOME/.local/bin/show-keybindings.sh\""
+  }
+,
+  {
+    "key": "SLASH",
+    "modifiers": "SUPERSHIFT",
+    "action": "exec, \"$HOME/.local/bin/update-keybindings-json.sh\"",
+    "description": "exec, \"$HOME/.local/bin/update-keybindings-json.sh\""
   }
 
 ]

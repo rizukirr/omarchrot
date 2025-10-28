@@ -8,13 +8,11 @@ xdg-desktop-portal-hyprland
 
 # UI/Menu/Status
 waybar
-tofi
 dunst
-wlogout
+wofi
 
 # Screenshots & Screen tools
 slurp
-wl-screenrec
 wf-recorder
 
 # System utilities
@@ -23,10 +21,11 @@ cliphist
 wl-clipboard
 playerctl
 brightnessctl
+bluez
+bluez-utils
 
 # Applications
 kitty
-firefox
 neovim
 
 # Audio/Video
@@ -45,7 +44,6 @@ fastfetch
 lsd
 git
 jq
-blueman
 bash-completion
 ripgrep
 lazygit

@@ -1,2 +1,9 @@
 # AUR Packages
 grimblast-git
+wlogout
+wl-screenrec
+catppuccin-gtk-theme-mocha
+catppuccin-cursors-mocha
+papirus-folder-catppuccin-git
+kvantum-theme-catppuccin-git
+nwg-look
