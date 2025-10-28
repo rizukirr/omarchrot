@@ -26,7 +26,6 @@ brightnessctl
 
 # Applications
 kitty
-pcmanfm-gtk3
 firefox
 neovim
 
@@ -53,9 +52,3 @@ lazygit
 
 # Fonts
 ttf-jetbrains-mono-nerd
-
-# GTK/QT Support
-gtk3
-qt5-wayland
-qt6-wayland
-qt6ct
