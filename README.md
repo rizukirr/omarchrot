@@ -22,7 +22,7 @@ _Note: The name has no relation to [Omarchy](https://github.com/basecamp/omarchy
 | ----------------- | ---------------- | ----------------------------------------------- |
 | **WM**            | Hyprland         | Smooth Wayland compositor, minimal yet powerful |
 | **Bar**           | Waybar           | Clean, customizable, no bloat                   |
-| **Launcher**      | Tofi             | Fast, minimal, keyboard-driven                  |
+| **Launcher**      | Wofi             | Fast, minimal, keyboard-driven                  |
 | **Terminal**      | Kitty            | GPU-accelerated, clean aesthetics               |
 | **Shell**         | Bash + Starship  | Simple, fast, beautiful prompt                  |
 | **Notifications** | Dunst + dunstify | Unobtrusive, scriptable OSD with native command |
@@ -167,7 +167,7 @@ Every package is intentionally chosen. No "just in case" bloat.
 **Desktop Environment**:
 
 - Hyprland ecosystem (compositor, wallpaper, lock, idle management)
-- Waybar, Tofi, Dunst, Wlogout
+- Waybar, Wofi, Dunst, Wlogout
 
 **Media & Graphics**:
 
