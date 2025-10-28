@@ -35,12 +35,6 @@ echo ""
 for item in "$DOTFILES_DIR/.config"/*; do
   basename_item=$(basename "$item")
 
-  # Skip gtk-3.0, gtk-4.0, and Kvantum
-  if [[ "$basename_item" == "gtk-3.0" || "$basename_item" == "gtk-4.0" || "$basename_item" == "Kvantum" ]]; then
-    echo -e "${YELLOW}Skipping:${NC} $basename_item"
-    continue
-  fi
-
   if [ -d "$item" ]; then
     target="$HOME/.config/$basename_item"
     backup_if_exists "$target"

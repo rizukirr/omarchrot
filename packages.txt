@@ -24,6 +24,7 @@ brightnessctl
 bluez
 bluez-utils
 libnotify
+thunar
 
 # Applications
 kitty
