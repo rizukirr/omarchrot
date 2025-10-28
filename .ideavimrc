@@ -1,0 +1,223 @@
+" ═══════════════════════════════════════════════════════════════════════════
+" Leader & Basic Configuration
+" ═══════════════════════════════════════════════════════════════════════════
+let mapleader = " "
+set clipboard=unnamedplus                " sync with system clipboard
+set number                               " show line numbers
+set relativenumber                       " show relative line numbers
+set which-key
+set notimeout
+set hlsearch
+set incsearch
+set ignorecase                           " ignore case in search
+set smartcase                            " case-sensitive if search contains uppercase
+set highlightedyank                      " highlight yanked text
+set NERDTree
+
+" ═══════════════════════════════════════════════════════════════════════════
+" NERDTree
+" ═══════════════════════════════════════════════════════════════════════════
+
+map <leader>e :NERDTreeToggle<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Flash
+" ═══════════════════════════════════════════════════════════════════════════
+
+" Search for string in visible area and jump
+nmap s <Action>(flash.search)
+xmap s <Action>(flash.search)
+" enhance vim f (find for char in characters to the right of the current cursor)
+nmap f <Action>(flash.find)
+xmap f <Action>(flash.find)
+" enhance vim F (find for char in characters to the left of the current cursor)
+nmap F <Action>(flash.find_backward)
+xmap F <Action>(flash.find_backward)
+" enhance vim t (till for char in characters to the right of the current cursor)
+nmap t <Action>(flash.till)
+xmap t <Action>(flash.till)
+" enhance vim T (till for char in characters to the left of the current cursor)
+nmap T <Action>(flash.till_backward)
+xmap T <Action>(flash.till_backward)
+" enhance vim ; (Repeat the last f/F/t/T search)
+nmap ; <Action>(flash.repeat)
+xmap ; <Action>(flash.repeat)
+" enhance vim , (Repeat the last f/F/t/T search backward)
+nmap , <Action>(flash.repeat_backward)
+xmap , <Action>(flash.repeat_backward)
+" syntax node expansion (flash.nvim treesitter equivalent)
+nmap S <Action>(flash.treesitter)
+xmap S <Action>(flash.treesitter)
+" remote operator (after pressing an operator like d, use r to pick target line remotely)
+omap r <Action>(flash.remote)
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Basic Motion Commands
+" ═══════════════════════════════════════════════════════════════════════════
+" Swap arrow keys with hjkl (force vim-style navigation)
+noremap <Left> h
+noremap <Down> j
+noremap <Up> k
+noremap <Right> l
+noremap h <Left>
+noremap j <Down>
+noremap k <Up>
+noremap l <Right>
+
+" Navigate through command history
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
+
+" Easy visual indentation
+vnoremap < <gv
+vnoremap > >gv
+
+" Navigate popup menus (like go to reference, autocomplete, etc.)
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+
+" Center cursor on vertical movements
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Actions
+map <leader>am <action>(ShowIntentionActions)
+" ═══════════════════════════════════════════════════════════════════════════
+" Basic File Operations
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <leader>w :action SaveAll<CR>
+nmap <leader>q :action CloseEditor<CR>
+nmap <ESC> :nohl<CR>
+
+" Auto-format and optimize imports on :w
+nmap :w :action OptimizeImports \| :action ReformatCode \| :w<CR>
+map <S-A-l> <Action>(MoveElementRight)
+map <S-A-h> <Action>(MoveElementLeft)
+nmap <S-j> <Action>(MoveLineDown)
+nmap <S-k> <Action>(MoveLineUp)
+vmap <S-j> <Action>(MoveLineDown)
+vmap <S-k> <Action>(MoveLineUp)
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Split Window Management
+" ═══════════════════════════════════════════════════════════════════════════
+" Create splits
+nmap <leader>wv :action SplitVertically<CR>
+nmap <leader>wh :action SplitHorizontally<CR>
+nmap <leader>wx :action Unsplit<CR>
+nmap <leader>we :action ChangeSplitOrientation<CR>
+
+" Navigate splits
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+" Resize splits
+nmap <leader>+ :action StretchSplitToTop<CR>
+nmap <leader>- :action StretchSplitToBottom<CR>
+nmap <leader>> :action StretchSplitToRight<CR>
+nmap <leader>< :action StretchSplitToLeft<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Tab Management
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <leader>to :action NewFile<CR>
+nmap <leader>tx :action CloseContent<CR>
+nmap <S-l> :action NextTab<CR>
+nmap <S-h> :action PreviousTab<CR>
+nmap <leader>tf :action MoveTabRight<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" System Clipboard Integration
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <leader>y "*y
+nmap <leader>Y "+y
+nmap <leader>p "*p
+nmap <leader>P "+p
+vnoremap <leader>y "*y
+vnoremap <leader>Y "+y
+vnoremap <leader>p "*p
+vnoremap <leader>P "+p
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Fuzzy Finding & Search (Telescope-style)
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <leader>ff :action GotoFile<CR>
+nmap <leader>fg :action FindInPath<CR>
+nmap <leader>fb :action RecentFiles<CR>
+nmap <leader>fh :action ShowAllActions<CR>
+nmap <leader>fa <action>(SearchEverywhere)
+
+" LSP-style search
+nmap <leader>fd :action GotoDeclaration<CR>
+nmap <leader>fr :action FindUsages<CR>
+nmap <leader>fi :action GotoImplementation<CR>
+nmap <leader>fs :action FileStructurePopup<CR>
+nmap <leader>fS :action GotoSymbol<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" LSP-style Navigation
+" ═══════════════════════════════════════════════════════════════════════════
+" Core navigation
+nmap gd :action GotoDeclaration<CR>
+nmap gD :action GotoTypeDeclaration<CR>
+nmap gi :action GotoImplementation<CR>
+nmap gr :action ShowUsages<CR>
+nmap <leader>k :action QuickJavaDoc<CR>
+
+" Diagnostics
+nmap <space>xx :action ShowErrorDescription<CR>
+nmap [d :action GotoPreviousError<CR>
+nmap ]d :action GotoNextError<CR>
+nmap <space>xo :action ActivateProblemsViewToolWindow<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Refactoring & Code Actions
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <space>sr :action RenameElement<CR>
+nmap <space>ca :action ShowIntentionActions<CR>
+nmap <space>cf :action ReformatCode<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Search & Find
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <leader>/ :action Find<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Comments
+" ═══════════════════════════════════════════════════════════════════════════
+" Using <leader>gc to match Comment.nvim in Neovim config
+nmap gc :action CommentByLineComment<CR>
+vnoremap gc :action CommentByLineComment<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Git Integration
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <leader>gg :action ActivateVersionControlToolWindow<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Terminal Integration
+" ═══════════════════════════════════════════════════════════════════════════
+nmap <leader>tt :action ActivateTerminalToolWindow<CR>
+
+" ═══════════════════════════════════════════════════════════════════════════
+" Additional IDE Features
+" ═══════════════════════════════════════════════════════════════════════════
+" Run configurations
+nmap <leader>ar :action Run<CR>
+nmap <leader>ad :action Debug<CR>
+nmap <leader>ax :action Stop<CR>
+
+" Debugging
+nmap <leader>dp :action ToggleLineBreakpoint<CR>
+
+" Refactoring
+map <leader>rn <Action>(RenameElement)
+map <leader>rm <Action>(ExtractMethod)
+map <leader>rv <Action>(IntroduceVariable)
+map <leader>rf <Action>(IntroduceField)
+map <leader>rs <Action>(ChangeSignature)
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
