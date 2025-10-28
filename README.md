@@ -121,6 +121,7 @@ Then log out and select Hyprland from your display manager.
 | `SUPER + Print`       | Screenshot (window)    | Media    |
 | `SUPER + ALT + Print` | Screenshot (area)      | Media    |
 | `SUPER + SHIFT + L`   | Lock screen            | System   |
+| `SUPER + SLASH`       | Keybindings            | Utility  |
 | `SUPER + ESC`         | Logout menu            | System   |
 
 All keybindings are defined in `~/.config/hypr/binding.conf` and automatically synced to JSON for the interactive viewer.
