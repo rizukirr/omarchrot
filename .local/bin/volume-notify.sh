@@ -17,12 +17,12 @@ get_volume() {
 show_notification() {
   vol=$1
   if [[ "$vol" == "muted" ]]; then
-    notify-send -u low -t 1500 -r $NOTIFY_ID "Volume" "Muted 🔇"
+    dunstify -u low -t 1500 -r $NOTIFY_ID "Volume" "Muted 🔇"
   else
     filled=$((vol / 5))
     empty=$((20 - filled))
     bar="$(printf '█%.0s' $(seq 1 $filled))$(printf '░%.0s' $(seq 1 $empty))"
-    notify-send -u low -t 1500 -r $NOTIFY_ID "Volume: $vol%" "$bar"
+    dunstify -u low -t 1500 -r $NOTIFY_ID "Volume: $vol%" "$bar"
   fi
 }
 

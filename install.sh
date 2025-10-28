@@ -65,9 +65,9 @@ else
   echo -e "${YELLOW}aur-packages.txt not found, skipping AUR packages${NC}"
 fi
 
-# Create symlinks
+# Copy configuration files
 echo ""
-echo -e "${YELLOW}Creating symlinks...${NC}"
+echo -e "${YELLOW}Copying configuration files...${NC}"
 
 # Backup function
 backup_if_exists() {
@@ -77,7 +77,7 @@ backup_if_exists() {
   fi
 }
 
-# Symlink .config directories and files
+# Copy .config directories and files
 for item in "$DOTFILES_DIR/.config"/*; do
   basename_item=$(basename "$item")
 
@@ -90,17 +90,17 @@ for item in "$DOTFILES_DIR/.config"/*; do
   if [ -d "$item" ]; then
     target="$HOME/.config/$basename_item"
     backup_if_exists "$target"
-    ln -sf "$item" "$target"
-    echo -e "${GREEN}Linked:${NC} $basename_item"
+    cp -r "$item" "$target"
+    echo -e "${GREEN}Copied:${NC} $basename_item"
   elif [ -f "$item" ]; then
     target="$HOME/.config/$basename_item"
     backup_if_exists "$target"
-    ln -sf "$item" "$target"
-    echo -e "${GREEN}Linked:${NC} $basename_item"
+    cp "$item" "$target"
+    echo -e "${GREEN}Copied:${NC} $basename_item"
   fi
 done
 
-# Symlink scripts
+# Copy scripts
 echo ""
 echo -e "${YELLOW}Installing scripts to ~/.local/bin...${NC}"
 mkdir -p "$HOME/.local/bin"
@@ -109,9 +109,9 @@ for script in "$DOTFILES_DIR/.local/bin"/*.sh; do
   if [ -f "$script" ]; then
     target="$HOME/.local/bin/$(basename "$script")"
     backup_if_exists "$target"
-    ln -sf "$script" "$target"
+    cp "$script" "$target"
     chmod +x "$target"
-    echo -e "${GREEN}Linked:${NC} $(basename "$script")"
+    echo -e "${GREEN}Copied:${NC} $(basename "$script")"
   fi
 done
 
@@ -145,8 +145,13 @@ echo -e "${GREEN}======================================"
 echo "  Installation Complete!"
 echo "======================================${NC}"
 echo ""
+echo "Configuration files have been copied to your home directory."
+echo "To update configs, edit files in ~/.config/ directly."
+echo ""
+echo "For developers: Use ./dev-symlink.sh to symlink configs instead."
+echo ""
 echo "Next steps:"
 echo "1. Log out and log back in to Hyprland"
-echo "2. Customize monitors.conf for your setup"
+echo "2. Customize ~/.config/hypr/monitors.conf for your setup"
 echo "3. Done"
 echo ""

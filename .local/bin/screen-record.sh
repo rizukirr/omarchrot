@@ -3,7 +3,7 @@
 OUTPUT_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
 
 if [[ ! -d "$OUTPUT_DIR" ]]; then
-  notify-send "Screen recording directory does not exist: $OUTPUT_DIR" -u critical -t 3000
+  dunstify "Screen recording directory does not exist: $OUTPUT_DIR" -u critical -t 3000
   exit 1
 fi
 
@@ -31,7 +31,7 @@ stop_screenrecording() {
   pkill -x wl-screenrec
   pkill -x wf-recorder
 
-  notify-send "Screen recording saved to $OUTPUT_DIR" -t 2000
+  dunstify "Screen recording saved to $OUTPUT_DIR" -t 2000
 
   sleep 0.2 # ensures the process is actually dead before we check
   toggle_screenrecording_indicator

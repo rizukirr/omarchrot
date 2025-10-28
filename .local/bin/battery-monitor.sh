@@ -30,7 +30,7 @@ if [[ "$BATTERY_STATE" == "discharging" ]]; then
 
       # Send notification only once per threshold using flag file
       if [[ ! -f "$FLAG_FILE" ]] || [[ $(cat "$FLAG_FILE" 2>/dev/null) != "$threshold" ]]; then
-        notify-send -u critical "Battery Low" "Battery at ${BATTERY_LEVEL}%, brightness reduced to ${threshold}%"
+        dunstify -u critical "Battery Low" "Battery at ${BATTERY_LEVEL}%, brightness reduced to ${threshold}%"
         echo "$threshold" >"$FLAG_FILE"
       fi
     fi

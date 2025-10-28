@@ -25,7 +25,7 @@ _Note: The name has no relation to [Omarchy](https://github.com/basecamp/omarchy
 | **Launcher**      | Tofi            | Fast, minimal, keyboard-driven                  |
 | **Terminal**      | Kitty           | GPU-accelerated, clean aesthetics               |
 | **Shell**         | Bash + Starship | Simple, fast, beautiful prompt                  |
-| **Notifications** | Dunst           | Unobtrusive, scriptable OSD                     |
+| **Notifications** | Dunst + dunstify | Unobtrusive, scriptable OSD with native command |
 | **Editor**        | Neovim          | Efficient, distraction-free coding              |
 | **File Manager**  | PCManFM         | Lightweight, GTK-based                          |
 | **Browser**       | Firefox         | Customizable, privacy-focused                   |
@@ -44,7 +44,7 @@ _Note: The name has no relation to [Omarchy](https://github.com/basecamp/omarchy
 
 All scripts live in `.local/bin/` and follow consistent patterns:
 
-**Visual Feedback** (minimal, non-intrusive):
+**Visual Feedback** (minimal, non-intrusive, using dunstify):
 
 - `volume-notify.sh` - Volume OSD with ASCII bar graph
 - `brightness-notify.sh` - Brightness OSD with visual indicator
@@ -87,9 +87,11 @@ The installer handles everything:
 - AUR helper detection/installation (yay/paru)
 - Git submodule initialization (Neovim config from [rrxxyz/nvim-minimal](https://github.com/rrxxyz/nvim-minimal))
 - Package installation from curated lists
-- Symlink creation with automatic backups
+- Configuration file copying with automatic backups
 - Service enablement (PipeWire, battery monitor)
 - Keybinding JSON generation
+
+**For developers/maintainers**: After running `install.sh`, you can run `./dev-symlink.sh` to replace copied files with symlinks. This allows you to edit configs in the repository and see changes immediately.
 
 **Post-install**: Customize machine-specific configs:
 
@@ -154,6 +156,7 @@ This config is designed to be easily customized:
 - **Audio**: PipeWire + WirePlumber (modern, low-latency)
 - **Screen Recording**: Hardware-accelerated (wf-recorder for NVIDIA, wl-screenrec for others)
 - **Clipboard**: cliphist + wl-clipboard (Wayland-native)
+- **Notifications**: dunstify (dunst's native command, used by all notification scripts)
 
 ## Package Philosophy
 
@@ -191,11 +194,25 @@ Full lists available in `packages.txt` and `aur-packages.txt`.
 
 ## Maintenance
 
-### Syncing Local Changes
+### For Regular Users
+
+Configuration files are copied to `~/.config/`. To update your configs, edit them directly in `~/.config/`.
+
+### For Developers/Maintainers
+
+If you used `dev-symlink.sh`, your configs are symlinked. Changes in the repository immediately affect your system:
 
 ```bash
 cd ~/Projects/Tools/omarchrot
-cp ~/.config/hypr/*.conf .config/hypr/
+# Edit files directly in the repo
+git add . && git commit -m "Update configurations" && git push
+```
+
+To sync changes from `~/.config/` back to the repo (if not using symlinks):
+
+```bash
+cd ~/Projects/Tools/omarchrot
+cp -r ~/.config/hypr/*.conf .config/hypr/
 git add . && git commit -m "Update configurations" && git push
 ```
 
@@ -206,7 +223,8 @@ git add . && git commit -m "Update configurations" && git push
 | Scripts not executing       | Add `~/.local/bin` to `$PATH`, verify permissions                                    |
 | Keybinding viewer empty     | Run `~/.local/bin/update-keybindings-json.sh`                                        |
 | No audio                    | Enable PipeWire: `systemctl --user enable --now pipewire pipewire-pulse wireplumber` |
-| Battery monitor not running | Check systemd timer: `systemctl --user status battery-monitor.timer`                 |
+| Battery monitor not running | Check timer: `systemctl --user list-timers battery-monitor.timer` (NEXT/LEFT should show times). If empty, reload: `systemctl --user daemon-reload && systemctl --user restart battery-monitor.timer` |
+| Notifications not working   | Ensure dunst is running. Scripts use `dunstify` which requires dunst daemon          |
 
 ### Reload Configuration
 
@@ -216,10 +234,14 @@ hyprctl reload  # Reload Hyprland config without restarting
 
 ## Notes
 
+- **Installation Methods**:
+  - **Regular users**: `install.sh` copies files to `~/.config/` (stable snapshot)
+  - **Developers**: `install.sh` then `dev-symlink.sh` for live editing from the repo
 - **Neovim**: Separate git submodule from [rrxxyz/nvim-minimal](https://github.com/rrxxyz/nvim-minimal)
 - **Monitor Config**: Machine-specific, adjust `monitors.conf` for your setup
 - **GPU Support**: Screen recording auto-detects NVIDIA vs. other GPUs
-- **Battery Monitor**: Runs via systemd timer (every 30 seconds) with smart threshold-based notifications
+- **Battery Monitor**: Runs via systemd timer (every 30 seconds) with smart threshold-based notifications. Uses Wayland-compatible environment variables for proper dunstify integration
+- **Notification System**: All scripts use `dunstify` (dunst's native command) with replacement IDs to prevent notification spam
 
 ## Design Credits
 
