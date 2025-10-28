@@ -29,8 +29,6 @@ kitty
 pcmanfm-gtk3
 firefox
 neovim
-jq
-blueman
 
 # Audio/Video
 pipewire
@@ -45,7 +43,13 @@ fzf
 zoxide
 starship
 fastfetch
+lsd
 git
+jq
+blueman
+bash-completion
+ripgrep
+lazygit
 
 # Fonts
 ttf-jetbrains-mono-nerd
