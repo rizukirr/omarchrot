@@ -1,94 +1,290 @@
-[aws]
-disabled = true
+"$schema" = 'https://starship.rs/config-schema.json'
 
-[battery]
-disabled = true
+palette = 'catppuccin_mocha'
+# [pastel, pastel_brite, catppuccin_mocha]
 
-[character]
-# Green
-# Light Red
-
-[cmd_duration]
-
-[conda]
-
-[directory]
-truncation_length = 3
-
-[dotnet]
-disabled = true
-
-[env_var]
-disabled = true
-
-[elm]
-symbol = " "
-
-[git_branch]
-
-[git_commit]
-disabled = false
-commit_hash_length = 4
-tag_disabled = false
-
-[git_state]
-disabled = true
-
-[git_status]
-
-[golang]
-symbol = " "
-
-[hostname]
-
-[jobs]
-
-[kubernetes]
-symbol = "⎈ "
-disabled = true
-
-[line_break]
-disabled = false
-
-[nix_shell]
-disabled = true
-
-[memory_usage]
-disabled = true
-
-[java]
-symbol = " "
-
-[julia]
-symbol = " "
-
-[nodejs]
-symbol = " "
-
-[package]
-symbol = "󰏓 "
-
-[python]
-symbol = " "
-[ruby]
-
-[rust]
-symbol = " "
-
-[c]
-symbol = " "
-
-[cpp]
-symbol = " "
-
-[kotlin]
-symbol = " "
-
-[lua]
-symbol = " "
-
-[time]
-disabled = true
+format = """
+[╭](gray)\
+[](bg0)\
+$os\
+$username\
+[](fg:bg0 bg:bg1)\
+$directory\
+[](fg:bg1 bg:bg2)\
+$git_branch\
+$git_status\
+[](fg:bg2 bg:bg3)\
+$c\
+$cpp\
+$elixir\
+$elm\
+$golang\
+$gradle\
+$haskell\
+$java\
+$julia\
+$kotlin\
+$nodejs\
+$nim\
+$php\
+$python\
+$rust\
+$scala\
+[](fg:bg3 bg:bg4)\
+$conda\
+$docker_context\
+$pixi\
+[](fg:bg4 bg:bg5)\
+$time\
+[](fg:bg5)\
+$cmd_duration\
+$line_break\
+[╰](gray)\
+$character
+"""
 
 [username]
 disabled = false
+show_always = true
+style_user = "bg:bg0 fg:text"
+style_root = "bg:bg0 fg:text"
+# symbol = "󰀄"
+format = '[$user ]($style)'
+
+[os]
+disabled = false
+style = "bg:bg0 fg:text"
+
+[os.symbols]
+Windows = "  "
+Ubuntu = " 󰕈 "
+SUSE = "  "
+Raspbian = " 󰐿 "
+Mint = " 󰣭 "
+Macos = " 󰀵 "
+Manjaro = "  "
+Linux = " 󰌽 "
+Gentoo = " 󰣨 "
+Fedora = " 󰣛 "
+Alpine = "  "
+Amazon = "  "
+Android = "  "
+Arch = " 󰣇 "
+Artix = " 󰣇 "
+CentOS = "  "
+Debian = " 󰣚 "
+Redhat = " 󱄛 "
+RedHatEnterprise = " 󱄛 "
+
+[directory]
+disabled = false
+style = "bg:bg1 fg:text"
+# home_symbol = ""
+format = "[  $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+# Shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+# [directory.substitutions]
+# "/Documents" = "/󰈙 "
+# "/Downloads" = "/ "
+# "/Music" = "/ "
+# "/Pictures" = "/ "
+# "/Videos" = "/ "
+# "/Audios" = "/ "
+# "/GitHub" = "/ "
+# "/.config" = "/ "
+# "/Develop" = "/󰲋 "
+# Keep in mind that the order matters. For example:
+# "/Important Documents" = "/󰈙 "
+# will not be replaced, because "/Documents" was already substituted before.
+# So either put "/Important Documents" before "/Documents" or use the substituted version:
+# "/Important 󰈙 " = "/󰈙 "
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:bg5 fg:text"
+format = '[  $time ]($style)'
+
+[cmd_duration]
+disabled = false
+show_milliseconds = true
+show_notifications = true
+min_time = 100
+min_time_to_notify = 45000
+format = "[  in $duration ]($style)"
+style = "fg:lavender"
+
+[character]
+disabled = false
+success_symbol = '[❯](bold fg:green)'
+error_symbol = '[❯](bold fg:red)'
+
+[git_branch]
+symbol = ""
+style = "bg:bg2 fg:text"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+disabled = false
+# ahead = " $count "
+# behind = " $count "
+# deleted = "﫧 $count "
+# diverged = " $count "
+# stashed = " $count "
+# modified = " $count "
+# staged = " $count "
+# renamed = " $count "
+# untracked = " $count "
+style = "bg:bg2 fg:text"
+format = '[($all_status$ahead_behind)]($style)'
+
+[lua]
+symbol = ""
+style = "bg:bg4 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[conda]
+symbol = ""
+style = "bg:bg4 fg:text"
+format = '[ $symbol ($environment) ]($style)'
+ignore_base = false
+
+[docker_context]
+symbol = ""
+style = "bg:bg4 fg:text"
+format = '[ $symbol ($context) ]($style)'
+
+[pixi]
+style = "bg:bg4 fg:text"
+format = '[ $symbol ($version) ($environment) ]($style)'
+
+[c]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[cpp]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[elixir]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[elm]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[golang]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[gradle]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[java]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[julia]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[nim]
+symbol = "󰆥"
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[php]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[rust]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[scala]
+symbol = ""
+style = "bg:bg3 fg:text"
+format = '[ $symbol ($version) ]($style)'
+
+[palettes.pastel]
+bg0 = '90'
+bg1 = '168'
+bg2 = '216'
+bg3 = '110'
+bg4 = '30'
+bg5 = '24'
+text = '231'
+lavender = '147'
+red = '161'
+yellow = '222'
+green = '77'
+white = '231'
+gray = '242'
+black = '16'
+
+[palettes.pastel_brite]
+bg0 = '183'
+bg1 = '211'
+bg2 = '216'
+bg3 = '111'
+bg4 = '116'
+bg5 = '74'
+text = '16'
+lavender = '147'
+red = '161'
+yellow = '222'
+green = '77'
+white = '231'
+gray = '242'
+black = '16'
+
+[palettes.catppuccin_mocha]
+bg0 = '211'
+bg1 = '216'
+bg2 = '223'
+bg3 = '151'
+bg4 = '117'
+bg5 = '147'
+text = '16'
+lavender = '147'
+red = '161'
+yellow = '222'
+green = '77'
+white = '231'
+gray = '242'
+black = '16'
