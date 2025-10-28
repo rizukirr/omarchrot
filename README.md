@@ -18,18 +18,17 @@ _Note: The name has no relation to [Omarchy](https://github.com/basecamp/omarchy
 
 ## Core Stack
 
-| Component         | Choice          | Why                                             |
-| ----------------- | --------------- | ----------------------------------------------- |
-| **WM**            | Hyprland        | Smooth Wayland compositor, minimal yet powerful |
-| **Bar**           | Waybar          | Clean, customizable, no bloat                   |
-| **Launcher**      | Tofi            | Fast, minimal, keyboard-driven                  |
-| **Terminal**      | Kitty           | GPU-accelerated, clean aesthetics               |
-| **Shell**         | Bash + Starship | Simple, fast, beautiful prompt                  |
+| Component         | Choice           | Why                                             |
+| ----------------- | ---------------- | ----------------------------------------------- |
+| **WM**            | Hyprland         | Smooth Wayland compositor, minimal yet powerful |
+| **Bar**           | Waybar           | Clean, customizable, no bloat                   |
+| **Launcher**      | Tofi             | Fast, minimal, keyboard-driven                  |
+| **Terminal**      | Kitty            | GPU-accelerated, clean aesthetics               |
+| **Shell**         | Bash + Starship  | Simple, fast, beautiful prompt                  |
 | **Notifications** | Dunst + dunstify | Unobtrusive, scriptable OSD with native command |
-| **Editor**        | Neovim          | Efficient, distraction-free coding              |
-| **File Manager**  | PCManFM         | Lightweight, GTK-based                          |
-| **Browser**       | Firefox         | Customizable, privacy-focused                   |
-| **Notes**         | Obsidian        | Markdown-based knowledge management             |
+| **Editor**        | Neovim           | Efficient, distraction-free coding              |
+| **Browser**       | Firefox          | Customizable, privacy-focused                   |
+| **Notes**         | Obsidian         | Markdown-based knowledge management             |
 
 ## What's Included
 
@@ -218,13 +217,13 @@ git add . && git commit -m "Update configurations" && git push
 
 ### Common Issues
 
-| Problem                     | Solution                                                                             |
-| --------------------------- | ------------------------------------------------------------------------------------ |
-| Scripts not executing       | Add `~/.local/bin` to `$PATH`, verify permissions                                    |
-| Keybinding viewer empty     | Run `~/.local/bin/update-keybindings-json.sh`                                        |
-| No audio                    | Enable PipeWire: `systemctl --user enable --now pipewire pipewire-pulse wireplumber` |
+| Problem                     | Solution                                                                                                                                                                                              |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scripts not executing       | Add `~/.local/bin` to `$PATH`, verify permissions                                                                                                                                                     |
+| Keybinding viewer empty     | Run `~/.local/bin/update-keybindings-json.sh`                                                                                                                                                         |
+| No audio                    | Enable PipeWire: `systemctl --user enable --now pipewire pipewire-pulse wireplumber`                                                                                                                  |
 | Battery monitor not running | Check timer: `systemctl --user list-timers battery-monitor.timer` (NEXT/LEFT should show times). If empty, reload: `systemctl --user daemon-reload && systemctl --user restart battery-monitor.timer` |
-| Notifications not working   | Ensure dunst is running. Scripts use `dunstify` which requires dunst daemon          |
+| Notifications not working   | Ensure dunst is running. Scripts use `dunstify` which requires dunst daemon                                                                                                                           |
 
 ### Reload Configuration
 
