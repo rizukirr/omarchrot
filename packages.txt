@@ -27,6 +27,11 @@ bluez-utils
 libnotify
 thunar
 
+# networking
+dnsmasq
+iptables
+hostapd
+
 # Applications
 kitty
 neovim

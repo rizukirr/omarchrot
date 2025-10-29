@@ -41,5 +41,9 @@ shopt -s histappend
 shopt -s checkwinsize
 PS1='[\u@\h \W]\$ '
 
+# better ls and grep
 alias ls='lsd -la'
 alias grep='rg --color=auto'
+
+# networking
+alias network='~/.local/bin/networking.sh'
