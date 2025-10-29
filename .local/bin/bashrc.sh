@@ -42,7 +42,7 @@ shopt -s checkwinsize
 PS1='[\u@\h \W]\$ '
 
 # better ls and grep
-alias ls='lsd -la'
+alias ls='lsd'
 alias grep='rg --color=auto'
 
 # networking
