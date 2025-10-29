@@ -31,6 +31,7 @@ thunar
 dnsmasq
 iptables
 hostapd
+haveged
 
 # Applications
 kitty
