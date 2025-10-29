@@ -32,6 +32,8 @@ usage() {
     echo "Options:"
     echo "  -h, --help              Show this help"
     echo "  --version               Print version number"
+    echo "  --connect <iface> <net> Connect to a WiFi network using iwctl"
+    echo "  --list-networks <iface> List available WiFi networks using iwctl"
     echo "  -c <channel>            Channel number (default: 1 or fallback to currently connected channel)"
     echo "  -w <WPA version>        Use 1 for WPA, use 2 for WPA2, use 1+2 for both (default: 2)"
     echo "  -n                      Disable Internet sharing (if you use this, don't pass"
@@ -683,6 +685,9 @@ FIX_UNMANAGED=0
 LIST_RUNNING=0
 STOP_ID=
 LIST_CLIENTS_ID=
+CONNECT_IFACE=
+CONNECT_NETWORK=
+LIST_NETWORKS_IFACE=
 
 STORE_CONFIG=
 LOAD_CONFIG=
@@ -1101,7 +1106,7 @@ for ((i = 0; i < $#; i++)); do
     fi
 done
 
-GETOPT_ARGS=$(getopt -o hc:w:g:de:nm: -l "help","hidden","hostapd-debug:","hostapd-timestamps","redirect-to-localhost","mac-filter","mac-filter-accept:","isolate-clients","ieee80211n","ieee80211ac","ieee80211ax","ht_capab:","vht_capab:","driver:","no-virt","fix-unmanaged","country:","freq-band:","mac:","dhcp-dns:","daemon","pidfile:","logfile:","dns-logfile:","stop:","list","list-running","list-clients:","version","psk","no-haveged","no-dns","no-dnsmasq","mkconfig:","config:","dhcp-hosts:" -n "$PROGNAME" -- "$@")
+GETOPT_ARGS=$(getopt -o hc:w:g:de:nm: -l "help","hidden","hostapd-debug:","hostapd-timestamps","redirect-to-localhost","mac-filter","mac-filter-accept:","isolate-clients","ieee80211n","ieee80211ac","ieee80211ax","ht_capab:","vht_capab:","driver:","no-virt","fix-unmanaged","country:","freq-band:","mac:","dhcp-dns:","daemon","pidfile:","logfile:","dns-logfile:","stop:","list","list-running","list-clients:","version","psk","no-haveged","no-dns","no-dnsmasq","mkconfig:","config:","dhcp-hosts:","connect:","list-networks:" -n "$PROGNAME" -- "$@")
 [[ $? -ne 0 ]] && exit 1
 eval set -- "$GETOPT_ARGS"
 
@@ -1265,6 +1270,18 @@ while :; do
         LIST_CLIENTS_ID="$1"
         shift
         ;;
+    --connect)
+        shift
+        CONNECT_IFACE="$1"
+        shift
+        CONNECT_NETWORK="$1"
+        shift
+        ;;
+    --list-networks)
+        shift
+        LIST_NETWORKS_IFACE="$1"
+        shift
+        ;;
     --no-haveged)
         shift
         NO_HAVEGED=1
@@ -1384,6 +1401,22 @@ if [[ $FIX_UNMANAGED -eq 1 ]]; then
     echo "Trying to fix unmanaged status in NetworkManager..."
     networkmanager_fix_unmanaged
     exit 0
+fi
+
+if [[ -n "$CONNECT_IFACE" ]]; then
+    if [[ -z "$CONNECT_NETWORK" ]]; then
+        echo "ERROR: --connect requires both interface and network name" >&2
+        exit 1
+    fi
+    echo "Connecting to network '$CONNECT_NETWORK' on interface '$CONNECT_IFACE'..."
+    iwctl station "$CONNECT_IFACE" connect "$CONNECT_NETWORK"
+    exit $?
+fi
+
+if [[ -n "$LIST_NETWORKS_IFACE" ]]; then
+    echo "Listing available networks on interface '$LIST_NETWORKS_IFACE'..."
+    iwctl station "$LIST_NETWORKS_IFACE" get-networks
+    exit $?
 fi
 
 if [[ $DAEMONIZE -eq 1 && $RUNNING_AS_DAEMON -eq 0 ]]; then
