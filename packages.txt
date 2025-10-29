@@ -26,6 +26,8 @@ bluez
 bluez-utils
 libnotify
 thunar
+unzip
+zip
 
 # networking
 dnsmasq
