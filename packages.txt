@@ -61,3 +61,5 @@ lazygit
 
 # Fonts
 ttf-jetbrains-mono-nerd
+noto-fonts-cjk
+noto-fonts-emoji
