@@ -5,8 +5,13 @@ set -e
 DOTFILES_DIR="$(pwd)"
 
 echo "======================================"
-echo "  Omarchrot Installation Script"
+echo "  Omarchrot Developer Installation"
 echo "======================================"
+echo ""
+echo "This script installs packages and creates symlinks for development."
+echo "Most configs will be symlinked, but machine-specific and user files will be copied."
+echo ""
+echo "For regular installation (copy all files), use install.sh instead."
 echo ""
 
 # Colors for output
@@ -65,10 +70,6 @@ else
   echo -e "${YELLOW}aur-packages.txt not found, skipping AUR packages${NC}"
 fi
 
-# Copy configuration files
-echo ""
-echo -e "${YELLOW}Copying configuration files...${NC}"
-
 # Backup function
 backup_if_exists() {
   if [ -e "$1" ] && [ ! -L "$1" ]; then
@@ -77,45 +78,65 @@ backup_if_exists() {
   fi
 }
 
-# Copy .config directories and files
+# Deploy configuration files
+echo ""
+echo -e "${YELLOW}Deploying configuration files...${NC}"
+
+# Process .config items (symlink most, copy machine-specific)
 for item in "$DOTFILES_DIR/.config"/*; do
   basename_item=$(basename "$item")
 
-  # Skip gtk-3.0, gtk-4.0, and Kvantum
+  # Skip gtk-3.0, gtk-4.0, and Kvantum (managed by nwg-look/qt6ct)
   if [[ "$basename_item" == "gtk-3.0" || "$basename_item" == "gtk-4.0" || "$basename_item" == "Kvantum" ]]; then
     echo -e "${YELLOW}Skipping:${NC} $basename_item"
     continue
   fi
 
-  if [ -d "$item" ]; then
-    target="$HOME/.config/$basename_item"
+  target="$HOME/.config/$basename_item"
+
+  # Check if this is a machine-specific config file
+  if [[ "$basename_item" == "monitors.conf" || "$basename_item" == "hyprpaper.conf" ]]; then
+    # Copy machine-specific files
     backup_if_exists "$target"
-    cp -r "$item" "$target"
-    echo -e "${GREEN}Copied:${NC} $basename_item"
-  elif [ -f "$item" ]; then
-    target="$HOME/.config/$basename_item"
+    if [ -d "$item" ]; then
+      cp -r "$item" "$target"
+    else
+      cp "$item" "$target"
+    fi
+    echo -e "${GREEN}Copied:${NC} $basename_item (machine-specific)"
+  else
+    # Symlink everything else
     backup_if_exists "$target"
-    cp "$item" "$target"
-    echo -e "${GREEN}Copied:${NC} $basename_item"
+    ln -sf "$item" "$target"
+    echo -e "${GREEN}Linked:${NC} $basename_item"
   fi
 done
 
-# Copy scripts
+# Copy .bashrc (user-customizable)
 echo ""
-echo -e "${YELLOW}Installing scripts to ~/.local/bin...${NC}"
+echo -e "${YELLOW}Copying .bashrc...${NC}"
+if [ -f "$DOTFILES_DIR/.bashrc" ]; then
+  backup_if_exists "$HOME/.bashrc"
+  cp "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
+  echo -e "${GREEN}Copied:${NC} .bashrc (user-customizable)"
+fi
+
+# Symlink scripts
+echo ""
+echo -e "${YELLOW}Symlinking scripts to ~/.local/bin...${NC}"
 mkdir -p "$HOME/.local/bin"
 
 for script in "$DOTFILES_DIR/.local/bin"/*.sh; do
   if [ -f "$script" ]; then
     target="$HOME/.local/bin/$(basename "$script")"
     backup_if_exists "$target"
-    cp "$script" "$target"
+    ln -sf "$script" "$target"
     chmod +x "$target"
-    echo -e "${GREEN}Copied:${NC} $(basename "$script")"
+    echo -e "${GREEN}Linked:${NC} $(basename "$script")"
   fi
 done
 
-# Copy .local/share assets
+# Copy .local/share assets (binary/runtime data)
 if [ -d "$DOTFILES_DIR/.local/share" ]; then
   echo ""
   echo -e "${YELLOW}Copying .local/share assets...${NC}"
@@ -126,7 +147,7 @@ if [ -d "$DOTFILES_DIR/.local/share" ]; then
       target="$HOME/.local/share/$basename_item"
       backup_if_exists "$target"
       cp -r "$item" "$target"
-      echo -e "${GREEN}Copied:${NC} .local/share/$basename_item"
+      echo -e "${GREEN}Copied:${NC} .local/share/$basename_item (assets)"
     fi
   done
 fi
@@ -158,16 +179,19 @@ fi
 
 echo ""
 echo -e "${GREEN}======================================"
-echo "  Installation Complete!"
+echo "  Developer Installation Complete!"
 echo "======================================${NC}"
 echo ""
-echo "Configuration files have been copied to your home directory."
-echo "To update configs, edit files in ~/.config/ directly."
+echo "Most config files are symlinked to this repository."
+echo "Changes in the repo will immediately affect your system."
 echo ""
-echo "For developers: Use ./dev-install.sh to symlink configs instead."
+echo "Copied (not symlinked):"
+echo "  - .bashrc (user-customizable)"
+echo "  - .local/share/ (assets)"
+echo "  - monitors.conf, hyprpaper.conf (machine-specific)"
 echo ""
 echo "Next steps:"
 echo "1. Log out and log back in to Hyprland"
 echo "2. Customize ~/.config/hypr/monitors.conf for your setup"
-echo "3. Done"
+echo "3. Edit configs in this repo to see changes immediately"
 echo ""

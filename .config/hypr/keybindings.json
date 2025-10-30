@@ -23,8 +23,8 @@
   {
     "key": "S",
     "modifiers": "SUPER",
-    "action": "exec, $androidstudio",
-    "description": "exec, $androidstudio"
+    "action": "exec, env QT_QPA_PLATFORM=xcb $androidstudio",
+    "description": "exec, env QT_QPA_PLATFORM=xcb $androidstudio"
   }
 ,
   {
