@@ -35,7 +35,7 @@ else
   echo -e "${YELLOW}No AUR helper found. Installing yay...${NC}"
   sudo pacman -Syu
   sudo pacman -S --needed git base-devel
-  if [ -z /tmp/yay ]; then
+  if [[ ! -d "/tmp/yay" ]]; then
     git clone https://aur.archlinux.org/yay.git /tmp/yay
   fi
   cd /tmp/yay

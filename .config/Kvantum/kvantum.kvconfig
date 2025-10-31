@@ -1,9 +1,0 @@
-[General]
-theme=catppuccin-mocha-lavender#
-
-[Applications]
-Default=dolphin
-catppuccin-frappe-lavender=dolphin
-catppuccin-latte-flamingo=dolphin
-catppuccin-latte-lavender=dolphin
-catppuccin-macchiato-lavender=dolphin

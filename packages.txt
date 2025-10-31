@@ -5,7 +5,6 @@ hyprlock
 hypridle
 hyprpicker
 hyprpolkitagent
-xdg-desktop-portal-hyprland
 
 # UI/Menu/Status
 waybar
