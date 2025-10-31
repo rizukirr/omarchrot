@@ -44,6 +44,7 @@ pipewire-alsa
 pipewire-audio
 pipewire-pulse
 wireplumber
+alsa-utils
 ffmpeg
 
 # CLI Tools

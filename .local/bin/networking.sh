@@ -61,7 +61,7 @@ usage() {
     echo "  --no-virt               Do not create virtual interface"
     echo "  --no-haveged            Do not run 'haveged' automatically when needed"
     echo "  --fix-unmanaged         If NetworkManager shows your interface as unmanaged after you"
-    echo "                          close create_ap, then use this option to switch your interface"
+    echo "                          close network, then use this option to switch your interface"
     echo "                          back to managed"
     echo "  --mac <MAC>             Set MAC address"
     echo "  --dhcp-dns <IP1[,IP2]>  Set DNS returned by DHCP"
@@ -70,16 +70,16 @@ usage() {
     echo "                          Othwise, the following syntax would work --dhcp-hosts \"host1,192.168.12.2 host2,192.168.12.3\""
     echo "                          See https://github.com/imp/dnsmasq/blob/770bce967cfc9967273d0acfb3ea018fb7b17522/dnsmasq.conf.example#L238"
     echo "                          for other valid dnsmasq dhcp-host parameters."
-    echo "  --daemon                Run create_ap in the background"
+    echo "  --daemon                Run network in the background"
     echo "  --pidfile <pidfile>     Save daemon PID to file"
     echo "  --logfile <logfile>     Save daemon messages to file"
     echo "  --dns-logfile <logfile> Log DNS queries to file"
-    echo "  --stop <id>             Send stop command to an already running create_ap. For an <id>"
-    echo "                          you can put the PID of create_ap or the WiFi interface. You can"
+    echo "  --stop <id>             Send stop command to an already running network. For an <id>"
+    echo "                          you can put the PID of network or the WiFi interface. You can"
     echo "                          get them with --list-running"
-    echo "  --list-running          Show the create_ap processes that are already running"
-    echo "  --list-clients <id>     List the clients connected to create_ap instance associated with <id>."
-    echo "                          For an <id> you can put the PID of create_ap or the WiFi interface."
+    echo "  --list-running          Show the network processes that are already running"
+    echo "  --list-clients <id>     List the clients connected to network instance associated with <id>."
+    echo "                          For an <id> you can put the PID of network or the WiFi interface."
     echo "                          If virtual WiFi interface was created, then use that one."
     echo "                          You can get them with --list-running"
     echo "  --mkconfig <conf_file>  Store configs in conf_file"
@@ -138,14 +138,14 @@ get_avail_fd() {
 }
 
 # lock file for the mutex counter
-COUNTER_LOCK_FILE=/tmp/create_ap.$$.lock
+COUNTER_LOCK_FILE=/tmp/network.$$.lock
 
 cleanup_lock() {
     rm -f $COUNTER_LOCK_FILE
 }
 
 init_lock() {
-    local LOCK_FILE=/tmp/create_ap.all.lock
+    local LOCK_FILE=/tmp/network.all.lock
 
     # we initialize only once
     [[ $LOCK_FD -ne 0 ]] && return 0
@@ -171,7 +171,7 @@ init_lock() {
     return $?
 }
 
-# recursive mutex lock for all create_ap processes
+# recursive mutex lock for all network processes
 mutex_lock() {
     local counter_mutex_fd
     local counter
@@ -197,7 +197,7 @@ mutex_lock() {
     return 0
 }
 
-# recursive mutex unlock for all create_ap processes
+# recursive mutex unlock for all network processes
 mutex_unlock() {
     local counter_mutex_fd
     local counter
@@ -308,7 +308,7 @@ can_be_sta_and_ap() {
         echo "WARN: brmfmac driver doesn't work properly with virtual interfaces and" >&2
         echo "      it can cause kernel panic. For this reason we disallow virtual" >&2
         echo "      interfaces for your adapter." >&2
-        echo "      For more info: https://github.com/oblique/create_ap/issues/203" >&2
+        echo "      For more info: https://github.com/oblique/network/issues/203" >&2
         return 1
     fi
     get_adapter_info "$1" | grep -E '{.* managed.* AP.*}' >/dev/null 2>&1 && return 0
@@ -736,7 +736,7 @@ _cleanup() {
         rm -f $COMMON_CONFDIR/${INTERNET_IFACE}_forwarding
     fi
 
-    # if we are the last create_ap instance then set back the common values
+    # if we are the last network instance then set back the common values
     if ! has_running_instance; then
         # kill common processes
         for x in $COMMON_CONFDIR/*.pid; do
@@ -866,7 +866,7 @@ clean_exit() {
 list_running_conf() {
     local x
     mutex_lock
-    for x in /tmp/create_ap.*; do
+    for x in /tmp/network.*; do
         if [[ -f $x/pid && -f $x/wifi_iface && -d /proc/$(cat $x/pid) ]]; then
             echo $x
         fi
@@ -970,7 +970,7 @@ has_running_instance() {
     local PID x
 
     mutex_lock
-    for x in /tmp/create_ap.*; do
+    for x in /tmp/network.*; do
         if [[ -f $x/pid ]]; then
             PID=$(cat $x/pid)
             if [[ -d /proc/$PID ]]; then
@@ -1011,9 +1011,9 @@ write_config() {
     local i=1
 
     # If using pkexec, evaluate permissions before writing.
-    #   However, the /etc/create_ap.conf
+    #   However, the /etc/network.conf
     #   location is excepted.
-    if [[ "$STORE_CONFIG" != "/etc/create_ap.conf" && $PKEXEC_UID ]]; then
+    if [[ "$STORE_CONFIG" != "/etc/network.conf" && $PKEXEC_UID ]]; then
         if [ -e "$STORE_CONFIG" ]; then
             if ! pkexec --user "$(id -nu $PKEXEC_UID)" test -w "$STORE_CONFIG"; then
                 echo "ERROR: 1 $(id -nu $PKEXEC_UID) has insufficient permissions to write to config file $STORE_CONFIG"
@@ -1025,7 +1025,7 @@ write_config() {
         fi
         # Assume that the user is making a conf file in a directory they normally
         # have control over, and keep permissions strictly private. (i.e. they will
-        # need to run create_ap directly with sudo in order to write to, say, /etc/create_ap2.conf)
+        # need to run network directly with sudo in order to write to, say, /etc/network2.conf)
         touch "$STORE_CONFIG"
         chown "$(id -nu $PKEXEC_UID):$(id -ng $PKEXEC_GID)" "$STORE_CONFIG"
         chmod 600 "$STORE_CONFIG"
@@ -1350,7 +1350,7 @@ fi
 
 # Check if required number of positional args are present
 if [[ $# -lt 1 && $FIX_UNMANAGED -eq 0 && -z "$STOP_ID" &&
-    $LIST_RUNNING -eq 0 && -z "$LIST_CLIENTS_ID" ]]; then
+    $LIST_RUNNING -eq 0 && -z "$LIST_CLIENTS_ID" && -z "$CONNECT_IFACE" && -z "$LIST_NETWORKS_IFACE" ]]; then
     usage >&2
     exit 1
 fi
@@ -1362,8 +1362,34 @@ fi
 
 trap "cleanup_lock" EXIT
 
+# Handle operations that don't require root first
+if [[ $LIST_RUNNING -eq 1 ]]; then
+    if ! init_lock; then
+        echo "ERROR: Failed to initialize lock" >&2
+        exit 1
+    fi
+    #echo -e "List of running $PROGNAME instances:\n"
+    list_running
+    exit 0
+fi
+
+if [[ -n "$LIST_NETWORKS_IFACE" ]]; then
+    iwctl station "$LIST_NETWORKS_IFACE" get-networks
+    exit $?
+fi
+
+if [[ -n "$CONNECT_IFACE" ]]; then
+    if [[ -z "$CONNECT_NETWORK" ]]; then
+        echo "ERROR: --connect requires both interface and network name" >&2
+        exit 1
+    fi
+    iwctl station "$CONNECT_IFACE" connect "$CONNECT_NETWORK"
+    exit $?
+fi
+
+# Now check for root access for operations that require it
 if [[ $(id -u) -ne 0 ]]; then
-    echo "create_ap must be run as root." >&2
+    echo "network must be run as root." >&2
     exit 1
 fi
 
@@ -1379,12 +1405,6 @@ trap "clean_exit" SIGINT SIGUSR1
 trap "die" SIGUSR2
 
 [[ -n "$STORE_CONFIG" ]] && write_config "$@"
-
-if [[ $LIST_RUNNING -eq 1 ]]; then
-    #echo -e "List of running $PROGNAME instances:\n"
-    list_running
-    exit 0
-fi
 
 if [[ -n "$LIST_CLIENTS_ID" ]]; then
     list_clients "$LIST_CLIENTS_ID"
@@ -1403,29 +1423,13 @@ if [[ $FIX_UNMANAGED -eq 1 ]]; then
     exit 0
 fi
 
-if [[ -n "$CONNECT_IFACE" ]]; then
-    if [[ -z "$CONNECT_NETWORK" ]]; then
-        echo "ERROR: --connect requires both interface and network name" >&2
-        exit 1
-    fi
-    echo "Connecting to network '$CONNECT_NETWORK' on interface '$CONNECT_IFACE'..."
-    iwctl station "$CONNECT_IFACE" connect "$CONNECT_NETWORK"
-    exit $?
-fi
-
-if [[ -n "$LIST_NETWORKS_IFACE" ]]; then
-    echo "Listing available networks on interface '$LIST_NETWORKS_IFACE'..."
-    iwctl station "$LIST_NETWORKS_IFACE" get-networks
-    exit $?
-fi
-
 if [[ $DAEMONIZE -eq 1 && $RUNNING_AS_DAEMON -eq 0 ]]; then
     # Assume we're running underneath a service manager if PIDFILE is set
     # and don't clobber it's output with a useless message
     if [ -z "$DAEMON_PIDFILE" ]; then
         echo "Running as Daemon..."
     fi
-    # run a detached create_ap
+    # run a detached network
     RUNNING_AS_DAEMON=1 setsid "$0" "${ARGS[@]}" >>$DAEMON_LOGFILE 2>&1 &
     exit 0
 elif [[ $RUNNING_AS_DAEMON -eq 1 && -n "$DAEMON_PIDFILE" ]]; then
@@ -1625,7 +1629,7 @@ fi
 
 mutex_lock
 trap "cleanup" EXIT
-CONFDIR=$(mktemp -d /tmp/create_ap.${WIFI_IFACE}.conf.XXXXXXXX)
+CONFDIR=$(mktemp -d /tmp/network.${WIFI_IFACE}.conf.XXXXXXXX)
 echo "Config dir: $CONFDIR"
 echo "PID: $$"
 echo $$ >$CONFDIR/pid
@@ -1635,7 +1639,7 @@ echo $$ >$CONFDIR/pid
 chmod 755 $CONFDIR
 chmod 444 $CONFDIR/pid
 
-COMMON_CONFDIR=/tmp/create_ap.common.conf
+COMMON_CONFDIR=/tmp/network.common.conf
 mkdir -p $COMMON_CONFDIR
 
 if [[ "$SHARE_METHOD" == "nat" ]]; then
@@ -2047,7 +2051,7 @@ if ! wait $HOSTAPD_PID; then
     echo -e "\nError: Failed to run hostapd, maybe a program is interfering." >&2
     if networkmanager_is_running; then
         echo "If an error like 'n80211: Could not configure driver mode' was thrown" >&2
-        echo "try running the following before starting create_ap:" >&2
+        echo "try running the following before starting network:" >&2
         if [[ $NM_OLDER_VERSION -eq 1 ]]; then
             echo "    nmcli nm wifi off" >&2
         else
