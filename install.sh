@@ -157,6 +157,9 @@ if command -v bluetoothctl &>/dev/null; then
   sudo systemctl start bluetooth
 fi
 
+mkdir ~/Videos
+mkdir ~/Pictures
+
 echo ""
 echo -e "${GREEN}======================================"
 echo "  Installation Complete!"

@@ -20,7 +20,8 @@
         "battery",
         "backlight",
         "pulseaudio",
-        "pulseaudio#microphone"
+        "pulseaudio#microphone",
+        "custom/sceen-record-indicator"
     ],
 
     "hyprland/window": {
@@ -151,5 +152,10 @@
         "exec": "if bluetoothctl show | grep -q 'Powered: yes'; then echo ' On'; else echo '󰂲 Off'; fi",
         "on-click":  "~/.local/bin/bluetooth-toggle.sh toggle",
         "interval": 5
+    },
+    "custom/sceen-record-indicator": {
+        "format": "{}",
+        "exec": "if ~/.local/bin/screen-record-active.sh | grep -q 'true'; echo ' rec'; else echo ''; fi",
+        "interval": 2
     }
 }
