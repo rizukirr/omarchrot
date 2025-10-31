@@ -21,7 +21,7 @@
         "backlight",
         "pulseaudio",
         "pulseaudio#microphone",
-        "custom/sceen-record-indicator"
+        "custom/screen-record-indicator"
     ],
 
     "hyprland/window": {
@@ -153,9 +153,10 @@
         "on-click":  "~/.local/bin/bluetooth-toggle.sh toggle",
         "interval": 5
     },
-    "custom/sceen-record-indicator": {
+    "custom/screen-record-indicator": {
         "format": "{}",
-        "exec": "if ~/.local/bin/screen-record-active.sh | grep -q 'true'; echo ' rec'; else echo ''; fi",
-        "interval": 2
+        "exec": "if pgrep -x 'wl-screenrec|wf-recorder' >/dev/null; then echo ' rec '; else echo ''; fi",
+        "signal": 8,
+        "interval": "once"
     }
 }
