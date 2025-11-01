@@ -156,7 +156,7 @@
         "format": "{}",
         "exec": "if pgrep -x 'wl-screenrec|wf-recorder' >/dev/null; then echo ' rec'; else echo ''; fi",
         "signal": 8,
-        "spacing": 10
+        "spacing": 10,
         "interval": "once"
     }
 }
