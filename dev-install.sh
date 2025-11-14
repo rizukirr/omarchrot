@@ -5,7 +5,7 @@ set -e
 DOTFILES_DIR="$(pwd)"
 
 echo "======================================"
-echo "  Omarchrot Developer Installation"
+echo "  Hyprsimple Developer Installation"
 echo "======================================"
 echo ""
 echo "This script installs packages and creates symlinks for development."

@@ -1,4 +1,4 @@
-# Omarchrot
+# hyprsimple
 
 > Clean. Basic. No Fancy. Everything you need.
 
@@ -130,8 +130,8 @@ Standard installation that **copies** all files to your home directory:
 
 ```bash
 # Clone the repository
-git clone https://github.com/rizukirr/omarchrot.git
-cd omarchrot
+git clone https://github.com/rizukirr/hyprsimple.git
+cd hyprsimple
 
 # Run the installer
 ./install.sh
@@ -158,8 +158,8 @@ Developer installation that **symlinks** most files for live editing:
 
 ```bash
 # Clone the repository
-git clone https://github.com/rizukirr/omarchrot.git
-cd omarchrot
+git clone https://github.com/rizukirr/hyprsimple.git
+cd hyprsimple
 
 # Run the developer installer
 ./dev-install.sh
@@ -617,7 +617,7 @@ hyprctl reload
 To get updates from the repository:
 
 ```bash
-cd ~/path/to/omarchrot
+cd ~/path/to/hyprsimple
 git pull
 ./install.sh  # Re-run installer (creates backups)
 ```
@@ -627,7 +627,7 @@ git pull
 If you used `dev-install.sh`, configs are **symlinked**. Changes in the repo immediately affect your system:
 
 ```bash
-cd ~/path/to/omarchrot
+cd ~/path/to/hyprsimple
 
 # Edit files directly in repo
 nvim .config/hypr/binding.conf
@@ -647,7 +647,7 @@ git push
 **Note**: Machine-specific files (`monitors.conf`, `hyprpaper.conf`) and `.bashrc` are copied, not symlinked. To update them in the repo:
 
 ```bash
-cp ~/.config/hypr/monitors.conf ~/path/to/omarchrot/.config/hypr/
+cp ~/.config/hypr/monitors.conf ~/path/to/hyprsimple/.config/hypr/
 ```
 
 ### Updating Submodules
@@ -655,7 +655,7 @@ cp ~/.config/hypr/monitors.conf ~/path/to/omarchrot/.config/hypr/
 Neovim config is a git submodule:
 
 ```bash
-cd ~/path/to/omarchrot
+cd ~/path/to/hyprsimple
 git submodule update --remote --merge
 git commit -am "Update Neovim submodule"
 ```
@@ -765,6 +765,6 @@ See [LICENSE](LICENSE) file for details.
 
 ---
 
-**Note**: The name "Omarchrot" has no relation to [Omarchy](https://github.com/basecamp/omarchy) — it was chosen randomly.
+**Note**: The name "hyprsimple" has no relation to [Omarchy](https://github.com/basecamp/omarchy) — it was chosen randomly.
 
 **Neovim Configuration**: Separate git submodule from [rrxxyz/nvim-minimal](https://github.com/rrxxyz/nvim-minimal)

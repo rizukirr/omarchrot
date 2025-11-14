@@ -154,7 +154,7 @@
     },
     "custom/screen-record-indicator": {
         "format": "{}",
-        "exec": "if pgrep -x 'wl-screenrec|wf-recorder' >/dev/null; then echo ' rec'; else echo ''; fi",
+        "exec": "if pgrep -x wl-screenrec >/dev/null || pgrep -x wf-recorder >/dev/null; then echo ' rec'; else echo ' '; fi",
         "signal": 8,
         "spacing": 10,
         "interval": "once"

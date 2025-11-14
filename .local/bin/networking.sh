@@ -32,8 +32,8 @@ usage() {
     echo "Options:"
     echo "  -h, --help              Show this help"
     echo "  --version               Print version number"
-    echo "  --connect <iface> <net> Connect to a WiFi network using iwctl"
-    echo "  --list-networks <iface> List available WiFi networks using iwctl"
+    echo "  --connect [<iface>] <net> Connect to a WiFi network using iwctl (default interface: wlan0)"
+    echo "  --list [<iface>]        List available WiFi networks using iwctl (default interface: wlan0)"
     echo "  -c <channel>            Channel number (default: 1 or fallback to currently connected channel)"
     echo "  -w <WPA version>        Use 1 for WPA, use 2 for WPA2, use 1+2 for both (default: 2)"
     echo "  -n                      Disable Internet sharing (if you use this, don't pass"
@@ -1106,7 +1106,7 @@ for ((i = 0; i < $#; i++)); do
     fi
 done
 
-GETOPT_ARGS=$(getopt -o hc:w:g:de:nm: -l "help","hidden","hostapd-debug:","hostapd-timestamps","redirect-to-localhost","mac-filter","mac-filter-accept:","isolate-clients","ieee80211n","ieee80211ac","ieee80211ax","ht_capab:","vht_capab:","driver:","no-virt","fix-unmanaged","country:","freq-band:","mac:","dhcp-dns:","daemon","pidfile:","logfile:","dns-logfile:","stop:","list","list-running","list-clients:","version","psk","no-haveged","no-dns","no-dnsmasq","mkconfig:","config:","dhcp-hosts:","connect:","list-networks:" -n "$PROGNAME" -- "$@")
+GETOPT_ARGS=$(getopt -o hc:w:g:de:nm: -l "help","hidden","hostapd-debug:","hostapd-timestamps","redirect-to-localhost","mac-filter","mac-filter-accept:","isolate-clients","ieee80211n","ieee80211ac","ieee80211ax","ht_capab:","vht_capab:","driver:","no-virt","fix-unmanaged","country:","freq-band:","mac:","dhcp-dns:","daemon","pidfile:","logfile:","dns-logfile:","stop:","list-running","list-clients:","version","psk","no-haveged","no-dns","no-dnsmasq","mkconfig:","config:","dhcp-hosts:","connect::","list::" -n "$PROGNAME" -- "$@")
 [[ $? -ne 0 ]] && exit 1
 eval set -- "$GETOPT_ARGS"
 
@@ -1256,11 +1256,6 @@ while :; do
         STOP_ID="$1"
         shift
         ;;
-    --list)
-        shift
-        LIST_RUNNING=1
-        echo -e "WARN: --list is deprecated, use --list-running instead.\n" >&2
-        ;;
     --list-running)
         shift
         LIST_RUNNING=1
@@ -1272,15 +1267,35 @@ while :; do
         ;;
     --connect)
         shift
-        CONNECT_IFACE="$1"
-        shift
-        CONNECT_NETWORK="$1"
-        shift
+        if [[ -n "$1" && "$1" != "--" ]]; then
+            # Check if the next argument looks like a network name (first arg) or interface (if two args)
+            # If there's a second non-option argument, treat first as interface, second as network
+            local first_arg="$1"
+            shift
+            if [[ -n "$1" && "$1" != "--" && ! "$1" =~ ^- ]]; then
+                # Two arguments: interface and network
+                CONNECT_IFACE="$first_arg"
+                CONNECT_NETWORK="$1"
+                shift
+            else
+                # One argument: network name only, use default interface
+                CONNECT_IFACE="wlan0"
+                CONNECT_NETWORK="$first_arg"
+            fi
+        else
+            echo "ERROR: --connect requires at least a network name" >&2
+            exit 1
+        fi
         ;;
-    --list-networks)
+    --list)
         shift
-        LIST_NETWORKS_IFACE="$1"
-        shift
+        if [[ -n "$1" && "$1" != "--" ]]; then
+            LIST_NETWORKS_IFACE="$1"
+            shift
+        else
+            LIST_NETWORKS_IFACE="wlan0"
+            shift
+        fi
         ;;
     --no-haveged)
         shift
@@ -1374,17 +1389,21 @@ if [[ $LIST_RUNNING -eq 1 ]]; then
 fi
 
 if [[ -n "$LIST_NETWORKS_IFACE" ]]; then
+    echo "Scanning for networks on interface '$LIST_NETWORKS_IFACE'..."
     iwctl station "$LIST_NETWORKS_IFACE" get-networks
     exit $?
 fi
 
 if [[ -n "$CONNECT_IFACE" ]]; then
-    if [[ -z "$CONNECT_NETWORK" ]]; then
-        echo "ERROR: --connect requires both interface and network name" >&2
+    echo "Connecting to network '$CONNECT_NETWORK' on interface '$CONNECT_IFACE'..."
+    iwctl station "$CONNECT_IFACE" connect "$CONNECT_NETWORK"
+    if [[ $? -eq 0 ]]; then
+        echo "Connected successfully."
+        exit 0
+    else
+        echo "Failed to connect."
         exit 1
     fi
-    iwctl station "$CONNECT_IFACE" connect "$CONNECT_NETWORK"
-    exit $?
 fi
 
 # Now check for root access for operations that require it

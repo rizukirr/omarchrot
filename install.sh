@@ -5,7 +5,7 @@ set -e
 DOTFILES_DIR="$(pwd)"
 
 echo "======================================"
-echo "  Omarchrot Installation Script"
+echo "  Hyprsimple Installation Script"
 echo "======================================"
 echo ""
 

@@ -23,8 +23,8 @@
   {
     "key": "S",
     "modifiers": "SUPER",
-    "action": "exec, env QT_QPA_PLATFORM=xcb $androidstudio",
-    "description": "exec, env QT_QPA_PLATFORM=xcb $androidstudio"
+    "action": "exec, $androidstudio",
+    "description": "exec, $androidstudio"
   }
 ,
   {
@@ -65,15 +65,43 @@
   {
     "key": "R",
     "modifiers": "SUPER",
-    "action": "exec, \"$HOME/.local/bin/screen-record.sh\"",
-    "description": "exec, \"$HOME/.local/bin/screen-record.sh\""
+    "action": "exec, ~/.local/bin/screen-record.sh region mic",
+    "description": "exec, ~/.local/bin/screen-record.sh region mic"
   }
 ,
   {
     "key": "R",
     "modifiers": "SUPERSHIFT",
-    "action": "exec, \"$HOME/.local/bin/screen-record.sh output\"",
-    "description": "exec, \"$HOME/.local/bin/screen-record.sh output\""
+    "action": "exec, ~/.local/bin/screen-record.sh output mic",
+    "description": "exec, ~/.local/bin/screen-record.sh output mic"
+  }
+,
+  {
+    "key": "R",
+    "modifiers": "SUPERALT",
+    "action": "exec, ~/.local/bin/screen-record.sh region internal",
+    "description": "exec, ~/.local/bin/screen-record.sh region internal"
+  }
+,
+  {
+    "key": "R",
+    "modifiers": "SUPERSHIFTALT",
+    "action": "exec, ~/.local/bin/screen-record.sh output internal",
+    "description": "exec, ~/.local/bin/screen-record.sh output internal"
+  }
+,
+  {
+    "key": "R",
+    "modifiers": "SUPERCTRL",
+    "action": "exec, ~/.local/bin/screen-record.sh region none",
+    "description": "exec, ~/.local/bin/screen-record.sh region none"
+  }
+,
+  {
+    "key": "R",
+    "modifiers": "SUPERCTRLSHIFT",
+    "action": "exec, ~/.local/bin/screen-record.sh output none",
+    "description": "exec, ~/.local/bin/screen-record.sh output none"
   }
 ,
   {

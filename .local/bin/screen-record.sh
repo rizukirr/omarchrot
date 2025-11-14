@@ -7,21 +7,51 @@ if [[ ! -d "$OUTPUT_DIR" ]]; then
   exit 1
 fi
 
-# Selects region or output
-SCOPE="$1"
-
-# Selects audio inclusion or not
-AUDIO=$([[ $2 == "audio" ]] && echo "--audio")
+SCOPE="$1"      # "region" or "output"
+AUDIO_MODE="$2" # "mic", "internal", or "none"
 
 start_screenrecording() {
-  local filename=""
+  local filename="$OUTPUT_DIR/screenrecording-$(date +'%Y-%m-%d_%H-%M-%S').mp4"
+  local audio_opts=()
 
-  filename="$OUTPUT_DIR/screenrecording-$(date +'%Y-%m-%d_%H-%M-%S').mp4"
-
+  # Detect whether wf-recorder or wl-screenrec will be used
+  local is_nvidia=false
   if lspci | grep -qi 'nvidia'; then
-    wf-recorder "$AUDIO" -f "$filename" -c libx264 -p crf=23 -p preset=medium -p movflags=+faststart "$@" &
+    is_nvidia=true
+  fi
+
+  # Configure audio source depending on mode
+  case "$AUDIO_MODE" in
+  mic)
+    # Capture from default mic
+    audio_opts=(--audio)
+    ;;
+  internal)
+    # Capture from system monitor source
+    # Replace below with your actual monitor source name if needed
+    MONITOR_SOURCE=$(pw-cli ls Node | grep monitor | head -n 1 | awk '{print $2}')
+    if [[ -z "$MONITOR_SOURCE" ]]; then
+      dunstify "No monitor source found for internal audio!" -u critical -t 3000
+      exit 1
+    fi
+    audio_opts=(--audio="pw:$MONITOR_SOURCE")
+    ;;
+  none | "")
+    audio_opts=()
+    ;;
+  *)
+    dunstify "Invalid audio mode: $AUDIO_MODE (use mic/internal/none)" -u critical -t 3000
+    exit 1
+    ;;
+  esac
+
+  # Run recorder
+  if $is_nvidia; then
+    wf-recorder "${audio_opts[@]}" -f "$filename" \
+      -c libx264 -p crf=23 -p preset=medium -p movflags=+faststart "$@" &
   else
-    wl-screenrec "$AUDIO" -f "$filename" --ffmpeg-encoder-options="-c:v libx264 -crf 23 -preset medium -movflags +faststart" "$@" &
+    wl-screenrec "${audio_opts[@]}" -f "$filename" \
+      --ffmpeg-encoder-options="-c:v libx264 -crf 23 -preset medium -movflags +faststart" "$@" &
   fi
 
   toggle_screenrecording_indicator
@@ -30,14 +60,12 @@ start_screenrecording() {
 stop_screenrecording() {
   pkill -x wl-screenrec
   pkill -x wf-recorder
-
   dunstify "Screen recording saved to $OUTPUT_DIR" -t 2000
-
-  sleep 0.2 # ensures the process is actually dead before we check
+  sleep 0.2
   toggle_screenrecording_indicator
 }
-toggle_screenrecording_indicator() {
 
+toggle_screenrecording_indicator() {
   pkill -RTMIN+8 waybar
 }
 
