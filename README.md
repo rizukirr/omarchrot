@@ -13,22 +13,47 @@ A **minimal aesthetics** Hyprland dotfiles collection for Arch Linux. This is a 
 - [Preview](#preview)
 - [Core Stack](#core-stack)
 - [Features](#features)
+  - [Minimalist Design Principles](#minimalist-design-principles)
+  - [Custom Utilities](#custom-utilities)
+    - [Visual Feedback](#visual-feedback)
+    - [System Controls](#system-controls)
+    - [Workflow Enhancements](#workflow-enhancements)
+    - [Smart Automation](#smart-automation)
+    - [Notification System](#notification-system)
 - [Installation](#installation)
+  - [Requirements](#requirements)
   - [For Users (Stable)](#for-users-stable)
   - [For Developers (Live Editing)](#for-developers-live-editing)
   - [Post-Installation](#post-installation)
 - [Usage](#usage)
   - [Keybindings](#keybindings)
+    - [Essential Shortcuts](#essential-shortcuts)
+    - [Utilities](#utilities)
+    - [Media & Screenshots](#media--screenshots)
+    - [System Controls](#system-controls-1)
   - [Scripts & Utilities](#scripts--utilities)
+    - [Running Scripts](#running-scripts)
+    - [Script Organization](#script-organization)
 - [Configuration](#configuration)
   - [Hyprland](#hyprland)
   - [Waybar](#waybar)
   - [Systemd Services](#systemd-services)
   - [Customization](#customization)
 - [Package Philosophy](#package-philosophy)
+  - [Official Packages](#official-packages-46-total)
+  - [AUR Packages](#aur-packages-9-total)
 - [Architecture](#architecture)
+  - [Installation Strategy](#installation-strategy)
+  - [Script Design Patterns](#script-design-patterns)
+  - [Configuration Modularity](#configuration-modularity)
 - [Maintenance](#maintenance)
+  - [For Regular Users](#for-regular-users)
+  - [For Developers](#for-developers)
+  - [Updating Submodules](#updating-submodules)
 - [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Reload Configuration](#reload-configuration)
+  - [Debugging](#debugging)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -677,11 +702,7 @@ git commit -am "Update Neovim submodule"
 | **Waybar recording indicator stuck** | Manually reset: `pkill -RTMIN+8 waybar`. Check if recording process is running: `pgrep wf-recorder` or `pgrep wl-screenrec`. |
 | **Hyprland doesn't start**           | Check logs: `journalctl -b | grep hyprland`. Verify `monitors.conf` syntax. Try minimal config: `cp ~/.config/hypr/monitors.conf ~/.config/hypr/monitors.conf.bak` and create a basic `monitors.conf`. |
 | **Submodule not initialized**        | Initialize manually: `git submodule update --init --recursive`. |
-| **NVIDIA-specific issues**           | Create `/etc/modprobe.d/nvidia.conf` with the following options: ```bash
-options nvidia-drm modeset=1
-options nvidia NVreg_PreserveVideoMemoryAllocations=1
-options nvidia NVreg_TemporaryFilePath=/tmp
-``` | 
+| **NVIDIA-specific issues**           | Create `/etc/modprobe.d/nvidia.conf` with the following options: <br>options nvidia-drm modeset=1<br>options nvidia NVreg_PreserveVideoMemoryAllocations=1<br>options nvidia NVreg_TemporaryFilePath=/tmp | 
 
 ### Reload Configuration
 
