@@ -666,17 +666,22 @@ git commit -am "Update Neovim submodule"
 
 ### Common Issues
 
-| Problem                              | Solution                                                                                                                                                                            |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Scripts not executing**            | Verify `~/.local/bin` is in `$PATH`. Check with `echo $PATH`. Add to `.bashrc` if missing: `export PATH="$HOME/.local/bin:$PATH"`. Verify permissions: `chmod +x ~/.local/bin/*.sh` |
-| **Keybinding viewer empty**          | Run `~/.local/bin/update-keybindings-json.sh` to regenerate `keybindings.json`                                                                                                      |
-| **No audio**                         | Enable PipeWire services: `systemctl --user enable --now pipewire pipewire-pulse wireplumber`. Check status: `systemctl --user status pipewire`                                     |
-| **Battery monitor not running**      | Check timer: `systemctl --user list-timers battery-monitor.timer`. If not listed, reload: `systemctl --user daemon-reload && systemctl --user restart battery-monitor.timer`        |
-| **Notifications not working**        | Ensure dunst is running: `pgrep dunst`. Scripts require `dunstify` command from dunst package                                                                                       |
-| **Screen recording fails**           | For NVIDIA: Install `wf-recorder`. For others: Install `wl-screenrec` (AUR). Check installation: `which wf-recorder` or `which wl-screenrec`                                        |
-| **Waybar recording indicator stuck** | Manually reset: `pkill -RTMIN+8 waybar`. Check if recording process is running: `pgrep wf-recorder` or `pgrep wl-screenrec`                                                         |
-| **Hyprland doesn't start**           | Check logs: `journalctl -b                                                                                                                                                          | grep hyprland`. Verify monitors.conf syntax. Try minimal config: `cp ~/.config/hypr/monitors.conf ~/.config/hypr/monitors.conf.bak` and create basic monitors.conf |
-| **Submodule not initialized**        | Initialize manually: `git submodule update --init --recursive`                                                                                                                      |
+| Problem                              | Solution |
+|--------------------------------------|---------|
+| **Scripts not executing**            | Verify `~/.local/bin` is in `$PATH` (`echo $PATH`). Add to `.bashrc` if missing: `export PATH="$HOME/.local/bin:$PATH"`. Verify permissions: `chmod +x ~/.local/bin/*.sh`. |
+| **Keybinding viewer empty**          | Run `~/.local/bin/update-keybindings-json.sh` to regenerate `keybindings.json`. |
+| **No audio**                         | Enable PipeWire services: `systemctl --user enable --now pipewire pipewire-pulse wireplumber`. Check status: `systemctl --user status pipewire`. |
+| **Battery monitor not running**      | Check timer: `systemctl --user list-timers battery-monitor.timer`. If not listed, reload: `systemctl --user daemon-reload && systemctl --user restart battery-monitor.timer`. |
+| **Notifications not working**        | Ensure dunst is running: `pgrep dunst`. Scripts require `dunstify` command from the dunst package. |
+| **Screen recording fails**           | For NVIDIA: install `wf-recorder`. For others: install `wl-screenrec` (AUR). Check installation: `which wf-recorder` or `which wl-screenrec`. |
+| **Waybar recording indicator stuck** | Manually reset: `pkill -RTMIN+8 waybar`. Check if recording process is running: `pgrep wf-recorder` or `pgrep wl-screenrec`. |
+| **Hyprland doesn't start**           | Check logs: `journalctl -b | grep hyprland`. Verify `monitors.conf` syntax. Try minimal config: `cp ~/.config/hypr/monitors.conf ~/.config/hypr/monitors.conf.bak` and create a basic `monitors.conf`. |
+| **Submodule not initialized**        | Initialize manually: `git submodule update --init --recursive`. |
+| **NVIDIA-specific issues**           | Create `/etc/modprobe.d/nvidia.conf` with the following options: ```bash
+options nvidia-drm modeset=1
+options nvidia NVreg_PreserveVideoMemoryAllocations=1
+options nvidia NVreg_TemporaryFilePath=/tmp
+``` | 
 
 ### Reload Configuration
 
