@@ -757,4 +757,13 @@ See [LICENSE](LICENSE) file for details.
 
 ---
 
+💖 **Support This Project**
+
+If you find this project helpful, consider supporting its development:  
+☕ [Buy Me a Coffee](https://ko-fi.com/rizukirr)
+
+Made with ❤️ by [rizukirr](https://github.com/rizukirr)
+
+---
+
 **Neovim Configuration**: Separate git submodule from [rrxxyz/nvim-minimal](https://github.com/rrxxyz/nvim-minimal)
