@@ -757,6 +757,4 @@ See [LICENSE](LICENSE) file for details.
 
 ---
 
-**Note**: The name "hyprsimple" has no relation to [Omarchy](https://github.com/basecamp/omarchy) — it was chosen randomly.
-
 **Neovim Configuration**: Separate git submodule from [rrxxyz/nvim-minimal](https://github.com/rrxxyz/nvim-minimal)
